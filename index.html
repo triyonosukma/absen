@@ -180,15 +180,15 @@
                     <div class="grid grid-cols-3 gap-3">
                         <div>
                             <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Bulan</label>
-                            <select id="select-bulan" class="soft-input w-full p-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm outline-none cursor-pointer"></select>
+                            <select id="select-bulan" class="soft-input w-full p-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm outline-none cursor-pointer text-slate-800 dark:text-white"></select>
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Tahun</label>
-                            <select id="select-tahun" class="soft-input w-full p-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm outline-none cursor-pointer"></select>
+                            <select id="select-tahun" class="soft-input w-full p-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm outline-none cursor-pointer text-slate-800 dark:text-white"></select>
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Hari Kerja</label>
-                            <input type="number" id="input-hari-kerja" value="21" min="1" max="31" class="soft-input w-full p-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm outline-none">
+                            <input type="number" id="input-hari-kerja" value="21" min="1" max="31" class="soft-input w-full p-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm outline-none text-slate-800 dark:text-white">
                         </div>
                     </div>
                 </div>
@@ -199,7 +199,7 @@
                         <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5">
                             <i class="fa-solid fa-file-import text-emerald-500"></i> Upload Jadwal Excel (C3=Tgl, C4=Hari, C5=Jadwal)
                         </label>
-                        <input type="file" id="input-excel" accept=".xlsx, .xls, .csv" class="block w-full text-xs text-slate-500 dark:text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border file:border-slate-300 file:bg-slate-50 dark:file:bg-slate-700 file:cursor-pointer">
+                        <input type="file" id="input-excel" accept=".xlsx, .xls, .csv" class="block w-full text-xs text-slate-500 dark:text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 dark:file:bg-emerald-500/10 dark:file:text-emerald-400 hover:file:bg-emerald-100 cursor-pointer border border-dashed border-slate-300 dark:border-slate-700 p-1.5 rounded-lg">
                     </div>
 
                     <!-- FITUR BARU: IMPORT BACKUP DARI TXT FILE -->
@@ -207,14 +207,14 @@
                         <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5">
                             <i class="fa-solid fa-file-code text-amber-500"></i> Import Restore dari File Backup (.txt)
                         </label>
-                        <input type="file" id="input-txt-backup" accept=".txt" class="block w-full text-xs text-slate-500 dark:text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border file:border-slate-300 file:bg-slate-50 dark:file:bg-slate-700 file:cursor-pointer">
+                        <input type="file" id="input-txt-backup" accept=".txt" class="block w-full text-xs text-slate-500 dark:text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-50 file:text-amber-700 dark:file:bg-amber-500/10 dark:file:text-amber-400 hover:file:bg-amber-100 cursor-pointer border border-dashed border-slate-300 dark:border-slate-700 p-1.5 rounded-lg">
                     </div>
 
                     <div class="admin-actions pt-3 border-t border-slate-100 dark:border-slate-700 flex flex-col sm:flex-row gap-2">
-                        <button id="btn-generate" class="action-button flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-3 rounded-lg transition-all text-xs flex items-center justify-center gap-1">
+                        <button id="btn-generate" class="action-button flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-3 rounded-lg transition-all text-xs flex items-center justify-center gap-1.5 shadow-md shadow-blue-500/10 cursor-pointer">
                             <i class="fa-solid fa-wand-magic-sparkles"></i> Auto-Generate
                         </button>
-                        <button id="btn-reset" class="action-button bg-rose-500/10 hover:bg-rose-50 dark:hover:bg-rose-950/40 text-rose-500 font-semibold py-2 px-3 rounded-lg transition-all text-xs flex items-center justify-center gap-1">
+                        <button id="btn-reset" class="action-button bg-rose-500/10 hover:bg-rose-50 dark:hover:bg-rose-950/40 text-rose-500 font-semibold py-2 px-3 rounded-lg transition-all text-xs flex items-center justify-center gap-1.5 cursor-pointer">
                             <i class="fa-solid fa-trash-can"></i> Reset
                         </button>
                     </div>
@@ -272,16 +272,16 @@
                 <form id="form-employee" class="space-y-4" onsubmit="event.preventDefault();">
                     <div>
                         <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Nama Karyawan</label>
-                        <input type="text" id="input-nama" placeholder="Nama lengkap karyawan" class="soft-input w-full p-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm outline-none">
+                        <input type="text" id="input-nama" placeholder="Nama lengkap karyawan" class="soft-input w-full p-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-xs text-slate-800 dark:text-white">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Sistem Kerja Utama</label>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <label class="flex items-center justify-center p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 cursor-pointer text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-700">
+                            <label class="flex items-center justify-center p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 cursor-pointer text-xs font-semibold has-[:checked]:border-blue-500 has-[:checked]:bg-blue-500/5">
                                 <input type="radio" name="jenis_kerja" value="Shift" checked class="hidden">
                                 <span><i class="fa-solid fa-arrows-spin text-blue-500 mr-1"></i> Tim Shift</span>
                             </label>
-                            <label class="flex items-center justify-center p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 cursor-pointer text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-700">
+                            <label class="flex items-center justify-center p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 cursor-pointer text-xs font-semibold has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-500/5">
                                 <input type="radio" name="jenis_kerja" value="Non Shift" class="hidden">
                                 <span><i class="fa-solid fa-briefcase text-emerald-500 mr-1"></i> Non-Shift</span>
                             </label>
@@ -290,17 +290,17 @@
                     <div>
                         <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Jenis Kelamin</label>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <label class="flex items-center justify-center p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 cursor-pointer text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-700">
+                            <label class="flex items-center justify-center p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 cursor-pointer text-xs font-semibold has-[:checked]:border-blue-500 has-[:checked]:bg-blue-500/5">
                                 <input type="radio" name="jenis_kelamin" value="L" checked class="hidden">
                                 <span><i class="fa-solid fa-mars text-blue-500 mr-1"></i> Laki-laki</span>
                             </label>
-                            <label class="flex items-center justify-center p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 cursor-pointer text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-700">
+                            <label class="flex items-center justify-center p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 cursor-pointer text-xs font-semibold has-[:checked]:border-pink-500 has-[:checked]:bg-pink-500/5">
                                 <input type="radio" name="jenis_kelamin" value="P" class="hidden">
                                 <span><i class="fa-solid fa-venus text-pink-500 mr-1"></i> Perempuan</span>
                             </label>
                         </div>
                     </div>
-                    <button type="button" id="btn-add-employee" class="action-button w-full bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 dark:text-slate-900 text-white font-semibold py-2 px-3 rounded-lg transition-all text-xs flex items-center justify-center gap-1">
+                    <button type="button" id="btn-add-employee" class="action-button w-full bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 dark:text-slate-900 text-white font-semibold py-2 rounded-lg transition-all text-xs flex items-center justify-center gap-1.5 cursor-pointer">
                         <i class="fa-solid fa-plus"></i> Tambah Karyawan
                     </button>
                 </form>
@@ -315,7 +315,7 @@
                     </div>
                     <div class="search-wrap relative flex items-center">
                         <i class="fa-solid fa-magnifying-glass text-slate-400 absolute ml-3 text-xs"></i>
-                        <input type="text" id="search-karyawan" placeholder="Cari nama staff di database..." class="soft-input pl-8 pr-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm outline-none">
+                        <input type="text" id="search-karyawan" placeholder="Cari nama staff di database..." class="soft-input pl-8 pr-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs outline-none focus:ring-1 focus:ring-blue-500 w-64 text-slate-800 dark:text-white">
                     </div>
                 </div>
 
@@ -341,19 +341,19 @@
                     <h2 class="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
                         <i class="fa-solid fa-calendar-check text-blue-600"></i> Matriks Visualisasi Jadwal Bulanan
                     </h2>
-                    <p id="info-petunjuk-edit" class="text-xs text-amber-600 dark:text-amber-400 font-medium mt-0.5 hidden"><i class="fa-solid fa-circle-info"></i> Info Petunjuk: Klik langsung pada kotak jadwal untuk mengubah shift.</p>
+                    <p id="info-petunjuk-edit" class="text-xs text-amber-600 dark:text-amber-400 font-medium mt-0.5 hidden"><i class="fa-solid fa-circle-info"></i> Info Petunjuk: Klik langsung pada kode shift di tabel untuk mengedit data secara instan.</p>
                 </div>
                 
                 <!-- PANEL PENCARIAN & KONTROL MATRIKS -->
                 <div class="schedule-toolbar flex flex-wrap items-center gap-3">
                     <div class="relative flex items-center">
                         <i class="fa-solid fa-filter text-slate-400 absolute ml-3 text-xs"></i>
-                        <input type="text" id="search-matriks" placeholder="Cari nama untuk edit jadwal..." class="soft-input pl-8 pr-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm outline-none">
+                        <input type="text" id="search-matriks" placeholder="Cari nama untuk edit jadwal..." class="soft-input pl-8 pr-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs outline-none focus:ring-2 focus:ring-blue-500 w-56 font-medium text-slate-800 dark:text-white shadow-2xs">
                     </div>
                     <div class="export-actions flex items-center gap-1.5">
                         <!-- BUTTON EXPORT BARU: DOWNLOAD BACKUP SEBAGAI TXT -->
-                        <button id="btn-export-txt" class="action-button bg-amber-600 hover:bg-amber-700 text-white font-semibold py-1.5 px-3 rounded-lg text-xs flex items-center gap-1 cursor-pointer"><i class="fa-solid fa-file-export"></i> TXT</button>
-                        <button id="btn-export-excel" class="action-button bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-1.5 px-3 rounded-lg text-xs flex items-center gap-1 cursor-pointer"><i class="fa-solid fa-table"></i> Excel</button>
+                        <button id="btn-export-txt" class="action-button bg-amber-600 hover:bg-amber-700 text-white font-semibold py-1.5 px-3 rounded-lg text-xs flex items-center gap-1 cursor-pointer" title="Download struktur data matriks jadwal ke file TXT untuk dicadangkan"><i class="fa-solid fa-file-lines"></i> TXT</button>
+                        <button id="btn-export-excel" class="action-button bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-1.5 px-3 rounded-lg text-xs flex items-center gap-1 cursor-pointer"><i class="fa-solid fa-file-excel"></i> Excel</button>
                         <button id="btn-export-pdf" class="action-button bg-rose-600 hover:bg-rose-700 text-white font-semibold py-1.5 px-3 rounded-lg text-xs flex items-center gap-1 cursor-pointer"><i class="fa-solid fa-file-pdf"></i> PDF</button>
                     </div>
                 </div>
@@ -364,7 +364,7 @@
                 <div class="flex items-center gap-1.5 bg-white text-slate-800 border border-slate-300 dark:bg-slate-800 dark:text-white dark:border-slate-600 px-2.5 py-1 rounded-md font-medium">1 / S1 (Pagi)</div>
                 <div class="flex items-center gap-1.5 bg-yellow-400 text-slate-800 px-2.5 py-1 rounded-md font-medium">2 / S2 (Siang)</div>
                 <div class="flex items-center gap-1.5 bg-blue-500 text-white px-2.5 py-1 rounded-md font-medium">3 / S3 (Malam)</div>
-                <div class="flex items-center gap-1.5 bg-white text-slate-800 border border-slate-300 dark:bg-slate-800 dark:text-white dark:border-slate-600 px-2.5 py-1 rounded-md font-medium">WFH1 (Pagi)</div>
+                <div class="flex items-center gap-1.5 bg-white text-slate-800 border border-slate-300 dark:bg-slate-800 dark:text-white dark:border-slate-600 px-2.5 py-1 rounded-md font-medium">WFH1 (WFH Pagi)</div>
                 <div class="flex items-center gap-1.5 bg-yellow-400 text-slate-800 px-2.5 py-1 rounded-md font-medium">WFH2 (WFH Siang)</div>
                 <div class="flex items-center gap-1.5 bg-emerald-500 text-white px-2.5 py-1 rounded-md font-medium">NS (Non Shift)</div>
                 <div class="flex items-center gap-1.5 bg-rose-400 text-white px-2.5 py-1 rounded-md font-medium">C (Cuti)</div>
@@ -450,45 +450,6 @@
             max: 23
         };
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            loadFromLocalStorage();    
-            initDateSelectors();       
-            applyRoleUI();
-            
-            // FITUR BARU: Auto-load backup data saat halaman dibuka
-            await autoLoadBackupData();
-            
-            renderAllDataWithFilter(); 
-            initRealtimeClock();       
-            startShiftRotation(); 
-
-            document.getElementById('btn-add-employee').addEventListener('click', handleEmployeeAction);
-            document.getElementById('btn-generate').addEventListener('click', generateScheduleFlow);
-            document.getElementById('btn-reset').addEventListener('click', resetAllData);
-            document.getElementById('btn-theme-toggle').addEventListener('click', toggleDarkMode);
-            document.getElementById('input-excel').addEventListener('change', handleExcelUpload);
-            document.getElementById('input-txt-backup').addEventListener('change', handleTxtBackupUpload);
-            document.getElementById('btn-export-excel').addEventListener('click', doExportExcel);
-            document.getElementById('btn-export-pdf').addEventListener('click', doExportPDF);
-            document.getElementById('btn-export-txt').addEventListener('click', doExportTxtFile);
-            
-            document.getElementById('search-karyawan').addEventListener('input', () => {
-                const keyword = document.getElementById('search-karyawan').value.toLowerCase();
-                renderEmployeeList(keyword);
-            });
-            
-            document.getElementById('search-matriks').addEventListener('input', () => {
-                const keyword = document.getElementById('search-matriks').value.toLowerCase();
-                if(generatedSchedule) {
-                    renderScheduleTable(keyword);
-                }
-            });
-
-            document.getElementById('select-bulan').addEventListener('change', updateDashboardRealtime);
-            document.getElementById('select-tahun').addEventListener('change', updateDashboardRealtime);
-        });
-
-        // ===== FITUR BARU: AUTO-LOAD BACKUP DATA =====
         async function autoLoadBackupData() {
             try {
                 const txtResponse = await fetch('https://raw.githubusercontent.com/triyonosukma/absen/main/BACKUP_JADWAL_Mei_2026.txt');
@@ -498,17 +459,15 @@
                     if (parsedData && parsedData.data && Array.isArray(parsedData.data)) {
                         generatedSchedule = parsedData;
                         employees = parsedData.data.map(item => ({
-                            id: item.id, 
-                            name: item.name, 
-                            type: item.type
+                            id: item.id, name: item.name, type: item.type
                         }));
                         saveToLocalStorage();
-                        showToast("✓ Berhasil memuat data dari GitHub Backup!", "success");
+                        showToast("Berhasil memuat data dari GitHub Backup!");
                         return;
                     }
                 }
             } catch (err) {
-                console.warn("Gagal fetch TXT dari GitHub, mencoba fallback...", err);
+                console.warn("Gagal fetch TXT dari GitHub, mencoba fallback.", err);
             }
 
             try {
@@ -565,13 +524,54 @@
                         employees = importedEmployees;
                         generatedSchedule = { month: selectedMonth, year: selectedYear, data: detectedMatrix, customDaysCount: detectedDaysCount };
                         saveToLocalStorage();
-                        showToast("✓ Berhasil memuat data dari file Excel lokal!", "success");
+                        showToast("Berhasil memuat data dari file Excel lokal!");
                     }
                 }
             } catch (err) {
                 console.warn("Gagal membaca file Excel lokal.", err);
             }
         }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            loadFromLocalStorage();    
+            if (!generatedSchedule || employees.length === 0) {
+                await autoLoadBackupData();
+            }
+            initDateSelectors();       
+            if (generatedSchedule) {
+                document.getElementById('select-bulan').value = generatedSchedule.month;
+                document.getElementById('select-tahun').value = generatedSchedule.year;
+            }
+            applyRoleUI();             
+            renderAllDataWithFilter(); 
+            initRealtimeClock();       
+            startShiftRotation();
+
+            document.getElementById('btn-add-employee').addEventListener('click', handleEmployeeAction);
+            document.getElementById('btn-generate').addEventListener('click', generateScheduleFlow);
+            document.getElementById('btn-reset').addEventListener('click', resetAllData);
+            document.getElementById('btn-theme-toggle').addEventListener('click', toggleDarkMode);
+            document.getElementById('input-excel').addEventListener('change', handleExcelUpload);
+            document.getElementById('input-txt-backup').addEventListener('change', handleTxtBackupUpload);
+            document.getElementById('btn-export-excel').addEventListener('click', doExportExcel);
+            document.getElementById('btn-export-pdf').addEventListener('click', doExportPDF);
+            document.getElementById('btn-export-txt').addEventListener('click', doExportTxtFile);
+            
+            document.getElementById('search-karyawan').addEventListener('input', () => {
+                const keyword = document.getElementById('search-karyawan').value.toLowerCase();
+                renderEmployeeList(keyword);
+            });
+            
+            document.getElementById('search-matriks').addEventListener('input', () => {
+                const keyword = document.getElementById('search-matriks').value.toLowerCase();
+                if(generatedSchedule) {
+                    renderScheduleTable(keyword);
+                }
+            });
+
+            document.getElementById('select-bulan').addEventListener('change', updateDashboardRealtime);
+            document.getElementById('select-tahun').addEventListener('change', updateDashboardRealtime);
+        });
 
         function switchRole(role) {
             if (role === "Admin") {
@@ -627,7 +627,7 @@
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             let icon = type === 'error' ? 'fa-exclamation-circle text-rose-500' : 'fa-check-circle text-emerald-500';
-            toast.className = `flex items-center gap-3 bg-white dark:bg-slate-800 p-3.5 rounded-xl shadow-lg border border-slate-100 dark:border-slate-700 text-xs font-semibold transform translate-y-2 opacity-0 transition-all duration-300`;
+            toast.className = `flex items-center gap-3 bg-white dark:bg-slate-800 p-3.5 rounded-xl shadow-lg border border-slate-100 dark:border-slate-700 text-xs font-semibold transform translate-y-2 opacity-0 duration-300`;
             toast.innerHTML = `<i class="fa-solid ${icon} text-base"></i><span>${message}</span>`;
             container.appendChild(toast);
             setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 50);
@@ -699,6 +699,7 @@
             });
         }
 
+        // FUNGSI UTAMA: SAAT UPLOAD EXCEL, SEKALIGUS DOWNLOAD BACKUP STRUKTUR KE TEXT FILE (.TXT)
         function handleExcelUpload(e) {
             if (CURRENT_ROLE !== 'Admin') return;
             const file = e.target.files[0];
@@ -773,12 +774,14 @@
                         employees = importedEmployees;
                         generatedSchedule = { month: selectedMonth, year: selectedYear, data: detectedMatrix, customDaysCount: detectedDaysCount };
                         
+                        // Simpan ke local storage internal browser
                         saveToLocalStorage();
                         
                         document.getElementById('search-karyawan').value = ''; 
                         document.getElementById('search-matriks').value = ''; 
                         renderAllDataWithFilter();
                         
+                        // PERMINTAAN USER: Picu otomatis download penyimpanan salinan struktur ke file .txt
                         triggerAutoTxtBackup(generatedSchedule);
                         
                         showToast(`Sukses mengimpor ${detectedMatrix.length} karyawan & Dicadangkan ke TXT!`);
@@ -795,6 +798,7 @@
             reader.readAsArrayBuffer(file);
         }
 
+        // FUNGSI UTAMA: MENANGANI UPLOAD FILE BACKUP .TXT
         function handleTxtBackupUpload(e) {
             if (CURRENT_ROLE !== 'Admin') return;
             const file = e.target.files[0];
@@ -804,17 +808,20 @@
             reader.onload = function(evt) {
                 try {
                     const rawText = evt.target.result;
+                    // Format di dalam TXT adalah JSON terenkapsulasi aman
                     const parsedData = JSON.parse(rawText);
                     
                     if (parsedData && parsedData.data && Array.isArray(parsedData.data)) {
                         generatedSchedule = parsedData;
                         
+                        // Re-build data karyawan dari data backup txt
                         employees = parsedData.data.map(item => ({
                             id: item.id,
                             name: item.name,
                             type: item.type
                         }));
                         
+                        // Sinkronkan elemen UI selektor bulan & tahun sesuai file backup
                         document.getElementById('select-bulan').value = parsedData.month;
                         document.getElementById('select-tahun').value = parsedData.year;
 
@@ -833,6 +840,7 @@
             reader.readAsText(file);
         }
 
+        // FUNGSI PEMBANTU: PENGUNDUHAN OTOMATIS TXT SAAT UPLOAD SELESAI
         function triggerAutoTxtBackup(scheduleObj) {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(scheduleObj, null, 2));
             const dlAnchorElem = document.createElement('a');
@@ -842,6 +850,7 @@
             dlAnchorElem.click();
         }
 
+        // MANUAL EXPORT TO TXT FILE VIA BUTTON
         function doExportTxtFile() {
             if(!generatedSchedule) {
                 showToast("Belum ada data jadwal untuk disimpan ke TXT.", "error");
@@ -1005,20 +1014,889 @@
             select.addEventListener('blur', saveChanges);
         }
 
-        // ===== PLACEHOLDER FUNCTIONS (Implementasi lengkap ada di file lain) =====
-        function generateScheduleFlow() { if (CURRENT_ROLE !== 'Admin') return; showToast("Fitur auto-generate jadwal belum diimplementasikan.", "error"); }
-        function resetAllData() { if (CURRENT_ROLE !== 'Admin') return; if(confirm("Hapus semua data jadwal?")) { generatedSchedule = null; employees = []; saveToLocalStorage(); renderAllDataWithFilter(); showToast("Data berhasil direset."); } }
-        function toggleDarkMode() { document.documentElement.classList.toggle('dark'); localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light'); }
-        function doExportExcel() { showToast("Fitur export Excel belum diimplementasikan.", "error"); }
-        function doExportPDF() { showToast("Fitur export PDF belum diimplementasikan.", "error"); }
-        function handleEmployeeAction() { showToast("Fitur tambah karyawan belum diimplementasikan.", "error"); }
-        function editEmployee(id) { showToast("Fitur edit karyawan belum diimplementasikan.", "error"); }
-        function removeEmployee(id) { showToast("Fitur hapus karyawan belum diimplementasikan.", "error"); }
-        function updateDashboardRealtime() { console.log("Dashboard realtime updated"); }
-        function initRealtimeClock() { setInterval(() => { document.getElementById('realtime-clock').innerText = new Date().toLocaleTimeString('id-ID'); document.getElementById('lbl-date-now').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }); }, 1000); }
-        function startShiftRotation() { console.log("Shift rotation started"); }
-        function saveToLocalStorage() { localStorage.setItem('sch_employees_v7', JSON.stringify(employees)); localStorage.setItem('sch_schedule_v7', JSON.stringify(generatedSchedule)); }
-        function loadFromLocalStorage() { const emp = localStorage.getItem('sch_employees_v7'); const sch = localStorage.getItem('sch_schedule_v7'); const role = localStorage.getItem('sch_role_v7'); if(emp) employees = JSON.parse(emp); if(sch) generatedSchedule = JSON.parse(sch); if(role) CURRENT_ROLE = role; }
+        function generateScheduleFlow() {
+            if (CURRENT_ROLE !== 'Admin') return;
+            if(employees.length === 0) {
+                showToast("Gagal: Database kosong!", "error");
+                return;
+            }
+            
+            const month = parseInt(document.getElementById('select-bulan').value);
+            const year = parseInt(document.getElementById('select-tahun').value);
+            const totalDays = new Date(year, month + 1, 0).getDate();
+            const shiftWorkers = employees.filter(e => e.type === 'Shift');
+            
+            let totalWeekdays = 0;
+            let totalWeekends = 0;
+            for(let d=1; d<=totalDays; d++) {
+                let dayOfWeek = new Date(year, month, d).getDay();
+                if(dayOfWeek === 0 || dayOfWeek === 6) totalWeekends++;
+                else totalWeekdays++;
+            }
+
+            const minDailyWorkersWeekday = WEEKDAY_TARGETS.s1.min + WEEKDAY_TARGETS.s2.min + WEEKDAY_TARGETS.s3.min;
+            const minDailyWorkersWeekend = WEEKEND_TARGETS.s1.min + WEEKEND_TARGETS.s2.min + WEEKEND_TARGETS.s3.min;
+            const absoluteMinShiftWorkers = Math.max(minDailyWorkersWeekday, minDailyWorkersWeekend);
+
+            const minMonthlyShiftDemand = (totalWeekdays * minDailyWorkersWeekday) + (totalWeekends * minDailyWorkersWeekend);
+            const maxMonthlyShiftDemand = (totalWeekdays * (WEEKDAY_TARGETS.s1.max + WEEKDAY_TARGETS.s2.max + WEEKDAY_TARGETS.s3.max)) + (totalWeekends * (WEEKEND_TARGETS.s1.max + WEEKEND_TARGETS.s2.max + WEEKEND_TARGETS.s3.max));
+            
+            const maxMonthlyShiftCapacity = shiftWorkers.length * MONTHLY_WORKDAY_TARGET.max;
+            const minMonthlyShiftCapacity = shiftWorkers.length * MONTHLY_WORKDAY_TARGET.min;
+
+            if(shiftWorkers.length > 0 && shiftWorkers.length < absoluteMinShiftWorkers) {
+                showToast(`Gagal: Pegawai shift minimal ${absoluteMinShiftWorkers} orang untuk pola yang ada.`, "error");
+                return;
+            }
+
+            if(shiftWorkers.length > 0 && minMonthlyShiftDemand > maxMonthlyShiftCapacity) {
+                showToast(`Gagal: Jumlah pegawai shift kurang. Dengan ${totalDays} hari, setiap pegawai maksimal ${MONTHLY_WORKDAY_TARGET.max} hari kerja.`, "error");
+                return;
+            }
+
+            if(shiftWorkers.length > 0 && minMonthlyShiftCapacity > maxMonthlyShiftDemand) {
+                showToast(`Gagal: Jumlah pegawai shift terlalu banyak untuk target ${MONTHLY_WORKDAY_TARGET.min}-${MONTHLY_WORKDAY_TARGET.max} hari kerja dan batas shift harian saat ini.`, "error");
+                return;
+            }
+
+            document.getElementById('loading-overlay').classList.remove('hidden');
+
+            setTimeout(() => {
+                try {
+                    let matrix = [];
+                    const nonShiftWorkers = employees.filter(e => e.type === 'Non Shift');
+
+                    nonShiftWorkers.forEach(emp => {
+                        let empSched = [];
+                        let workDayIndices = [];
+                        for(let d = 1; d <= totalDays; d++) {
+                            let dayOfWeek = new Date(year, month, d).getDay(); 
+                            if (dayOfWeek === 0 || dayOfWeek === 6) {
+                                empSched.push('L');
+                            } else {
+                                empSched.push('1');
+                                workDayIndices.push(d - 1);
+                            }
+                        }
+
+                        // Berikan jatah maksimal 4x WFH1 di hari kerja (secara acak), kecuali nama tertentu
+                        if (emp.name.toLowerCase() !== 'risalatulina dwi kunarti') {
+                            let wfhTarget = Math.min(4, workDayIndices.length);
+                            for(let w = 0; w < wfhTarget; w++) {
+                                let randIdx = Math.floor(Math.random() * workDayIndices.length);
+                                let targetDay = workDayIndices.splice(randIdx, 1)[0];
+                                empSched[targetDay] = 'WFH1';
+                            }
+                        }
+
+                        matrix.push({ id: emp.id, name: emp.name, type: emp.type, schedule: empSched });
+                    });
+
+                    let targetHariKerja = parseInt(document.getElementById('input-hari-kerja').value) || 21;
+
+                    let shiftWorkersScheds = shiftWorkers.map(w => ({
+                        id: w.id, name: w.name, type: w.type, gender: w.gender, schedule: Array(totalDays).fill(null), monthlyTarget: targetHariKerja
+                    }));
+
+                    distributeMonthlyTargets(shiftWorkersScheds, totalDays, totalWeekdays, totalWeekends);
+
+                    for(let d = 1; d <= totalDays; d++) {
+                        let dayOfWeek = new Date(year, month, d).getDay();
+                        let isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+                        
+                        let daysLeft = totalDays - d + 1;
+                        let remainingWorkDemand = shiftWorkersScheds.reduce((sum, worker) => {
+                            return sum + Math.max(0, worker.monthlyTarget - getWorkerWorkCount(worker, d - 1));
+                        }, 0);
+                        
+                        let targets = getDailyAutoShiftTargets(remainingWorkDemand, daysLeft, isWeekend);
+                        
+                        let bannedFromS1 = [];
+                        if(d > 1) {
+                            shiftWorkersScheds.forEach(w => {
+                                if(['3','S3'].includes(String(w.schedule[d - 2]).toUpperCase())) bannedFromS1.push(w.id);
+                            });
+                        }
+                        let weekdaysLeft = 0;
+                        for(let i = d; i <= totalDays; i++) {
+                            let dw = new Date(year, month, i).getDay();
+                            if(dw !== 0 && dw !== 6) weekdaysLeft++;
+                        }
+
+                        let missingWfhSlots = 0;
+                        shiftWorkersScheds.forEach(w => {
+                            if (w.name.toLowerCase() !== 'risalatulina dwi kunarti') {
+                                let currWfh = w.schedule.filter(s => s === 'WFH1' || s === 'WFH2').length;
+                                if (currWfh < 4) missingWfhSlots += (4 - currWfh);
+                            }
+                        });
+
+                        let wfh1Today = 0;
+                        let wfh2Today = 0;
+                        if (!isWeekend && weekdaysLeft > 0) {
+                            let wfhToday = Math.ceil(missingWfhSlots / weekdaysLeft);
+                            wfh1Today = Math.ceil(wfhToday * 0.7); // 70% dialokasikan ke WFH1
+                            wfh2Today = wfhToday - wfh1Today;      // Sisanya ke WFH2
+                        }
+
+                        const targetsDef = isWeekend ? WEEKEND_TARGETS : WEEKDAY_TARGETS;
+                        
+                        let bannedFromS3 = shiftWorkersScheds.filter(w => w.gender === 'P').map(w => w.id);
+
+                        // FASE 1: Prioritaskan pengisian target minimal agar S1 terjamin kuotanya (minimal 20)
+                        allocateShiftForDay(shiftWorkersScheds, d - 1, '3', targetsDef.s3.min, bannedFromS3);
+                        
+                        // Gunakan perhitungan wfhToday yang dinamis agar jatah 4 WFH per bulan per karyawan benar-benar terjamin
+                        allocateShiftForDay(shiftWorkersScheds, d - 1, '1', targetsDef.s1.min, bannedFromS1, 'WFH1', Math.max(0, targetsDef.s1.min - wfh1Today));
+                        allocateShiftForDay(shiftWorkersScheds, d - 1, '2', targetsDef.s2.min, [], 'WFH2', Math.max(0, targetsDef.s2.min - wfh2Today));
+
+                        // FASE 2: Bagikan sisa kuota (ekstra) jika masih ada pekerja yang tersedia
+                        let extraS3 = targets.s3 - targetsDef.s3.min;
+                        let extraS2 = targets.s2 - targetsDef.s2.min;
+                        let extraS1 = targets.s1 - targetsDef.s1.min;
+                        
+                        if (extraS3 > 0) allocateShiftForDay(shiftWorkersScheds, d - 1, '3', extraS3, bannedFromS3);
+                        if (extraS2 > 0) allocateShiftForDay(shiftWorkersScheds, d - 1, '2', extraS2, [], 'WFH2', 0);
+                        if (extraS1 > 0) allocateShiftForDay(shiftWorkersScheds, d - 1, '1', extraS1, bannedFromS1, 'WFH1', 0);
+
+                        shiftWorkersScheds.forEach(worker => {
+                            if(worker.schedule[d - 1] === null) worker.schedule[d - 1] = 'L';
+                        });
+                    }
+
+                    matrix = [...matrix, ...shiftWorkersScheds.map(({ monthlyTarget, ...worker }) => worker)];
+                    generatedSchedule = { month, year, data: matrix, customDaysCount: totalDays };
+
+                    saveToLocalStorage();
+                    document.getElementById('search-karyawan').value = '';
+                    document.getElementById('search-matriks').value = '';
+                    renderAllDataWithFilter();
+                    showToast(`Sukses membuat pola otomatis: tiap pegawai 20-23 hari kerja, terbagi S1/S2/S3/WFH1/WFH2.`);
+                } catch(err) {
+                    showToast("Gagal melakukan kalkulasi.", "error");
+                } finally {
+                    document.getElementById('loading-overlay').classList.add('hidden');
+                }
+            }, 500);
+        }
+
+        function distributeMonthlyTargets(workers, totalDays, totalWeekdays, totalWeekends) {
+            // Karena jumlah hari kerja sudah di-set statis (sama semua) dari input UI, 
+            // fungsi ini tidak perlu lagi mendistribusikan target secara acak.
+            return;
+        }
+
+        function getDailyAutoShiftTargets(remainingWorkDemand, daysLeft, isWeekend) {
+            const targetsDef = isWeekend ? WEEKEND_TARGETS : WEEKDAY_TARGETS;
+            const dailyMin = targetsDef.s1.min + targetsDef.s2.min + targetsDef.s3.min;
+            const dailyMax = targetsDef.s1.max + targetsDef.s2.max + targetsDef.s3.max;
+            
+            // Hitung kebutuhan rata-rata harian agar total shift pas dengan inputan hari kerja
+            let avgNeeded = Math.ceil(remainingWorkDemand / daysLeft);
+            
+            // Pastikan tidak melanggar batas min/max harian dari shift config
+            let totalToday = Math.max(dailyMin, Math.min(dailyMax, avgNeeded));
+
+            const targets = {
+                s1: targetsDef.s1.min,
+                s2: targetsDef.s2.min,
+                s3: targetsDef.s3.min
+            };
+
+            let remainingExtra = totalToday - dailyMin;
+            const fillOrder = ['s1', 's2', 's3'];
+            while(remainingExtra > 0) {
+                const key = fillOrder[randomInt(0, fillOrder.length - 1)];
+                if(targets[key] < targetsDef[key].max) {
+                    targets[key]++;
+                    remainingExtra--;
+                }
+            }
+
+            return targets;
+        }
+
+        function randomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function getWorkerWorkCount(worker, untilDay = worker.schedule.length) {
+            return worker.schedule
+                .slice(0, untilDay)
+                .filter(shiftCode => isWorkShiftCode(shiftCode)).length;
+        }
+
+        function isWorkShiftCode(code) {
+            return ['1','S1','2','S2','3','S3','WFH1','WFH2','NS'].includes(String(code || '').toUpperCase().trim());
+        }
+
+        function allocateShiftForDay(workers, dayIdx, code, targetCount, bannedIds = [], wfhCode = null, minMainTarget = 0) {
+            const getShiftCount = (worker) => worker.schedule
+                .slice(0, dayIdx)
+                .filter(shiftCode => {
+                    const cleanCode = String(shiftCode).toUpperCase().trim();
+                    return cleanCode === code || (wfhCode && cleanCode === wfhCode);
+                }).length;
+            const getTotalWfhCount = (worker) => worker.schedule
+                .slice(0, dayIdx)
+                .filter(shiftCode => {
+                    const c = String(shiftCode).toUpperCase().trim();
+                    return c === 'WFH1' || c === 'WFH2';
+                }).length;
+            const getWorkDaysInLast6Days = (worker, dIdx) => {
+                let count = 0;
+                for(let i = dIdx - 1; i >= Math.max(0, dIdx - 6); i--) {
+                    if (isWorkShiftCode(worker.schedule[i])) count++;
+                }
+                return count;
+            };
+
+            const sortedWorkers = workers
+                .filter(worker => worker.schedule[dayIdx] === null && !bannedIds.includes(worker.id) && getWorkerWorkCount(worker, dayIdx) < worker.monthlyTarget)
+                .sort((a, b) => {
+                    const workLast6A = getWorkDaysInLast6Days(a, dayIdx);
+                    const workLast6B = getWorkDaysInLast6Days(b, dayIdx);
+                    
+                    // Maksimal 5 hari kerja dalam setiap window 7 hari (5 masuk, 2 libur)
+                    if (workLast6A >= 5 && workLast6B < 5) return 1;
+                    if (workLast6B >= 5 && workLast6A < 5) return -1;
+
+                    const shiftDiff = getShiftCount(a) - getShiftCount(b);
+                    if(shiftDiff !== 0) return shiftDiff;
+                    
+                    const wfhDiff = getTotalWfhCount(a) - getTotalWfhCount(b);
+                    if(wfhDiff !== 0) return wfhDiff;
+
+                    return getWorkerWorkCount(a, dayIdx) - getWorkerWorkCount(b, dayIdx);
+                });
+
+            let mainTargetCount = minMainTarget > 0 ? minMainTarget : targetCount;
+            if (mainTargetCount > targetCount) mainTargetCount = targetCount;
+            const wfhTargetCount = wfhCode ? (targetCount - mainTargetCount) : 0;
+
+            let selectedWorkers = sortedWorkers.slice(0, targetCount);
+
+            if (wfhCode && wfhTargetCount > 0) {
+                // Pilih kandidat WFH dari pekerja yang terpilih hari ini, utamakan yang WFH-nya paling sedikit
+                let wfhEligible = [...selectedWorkers]
+                    .filter(w => getTotalWfhCount(w) < 4 && w.name.toLowerCase() !== 'risalatulina dwi kunarti')
+                    .sort((a, b) => getTotalWfhCount(a) - getTotalWfhCount(b));
+
+                let wfhGiven = 0;
+                wfhEligible.forEach(w => {
+                    if (wfhGiven < wfhTargetCount) {
+                        w.schedule[dayIdx] = wfhCode;
+                        wfhGiven++;
+                    }
+                });
+            }
+
+            // Sisa pekerja yang terpilih tapi tidak kebagian WFH akan masuk shift utama
+            selectedWorkers.forEach(w => {
+                if (!w.schedule[dayIdx]) {
+                    w.schedule[dayIdx] = code;
+                }
+            });
+        }
+
+        function initRealtimeClock() {
+            setInterval(() => {
+                const now = new Date();
+                document.getElementById('realtime-clock').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+            }, 1000);
+            document.getElementById('realtime-clock').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+        }
+
+        function startShiftRotation() {
+            if(rotationInterval) clearTimeout(rotationInterval);
+            
+            function performRotation() {
+                currentRotationShift = currentRotationShift === 3 ? 1 : currentRotationShift + 1;
+                
+                const staffContainer = document.getElementById('list-active-staff');
+                staffContainer.classList.replace('opacity-100', 'opacity-0');
+                
+                setTimeout(() => {
+                    updateDashboardRealtime();
+                    staffContainer.scrollTop = 0; // Reset scroll ke atas
+                    staffContainer.classList.replace('opacity-0', 'opacity-100');
+                    
+                    // Tunggu sesaat agar transisi muncul (fade-in) lalu hitung apakah perlu di-scroll
+                    setTimeout(() => {
+                        const isScrollable = staffContainer.scrollHeight > staffContainer.clientHeight;
+                        
+                        if (isScrollable) {
+                            const maxScroll = staffContainer.scrollHeight - staffContainer.clientHeight;
+                            // Kecepatan scroll dinamis: 30ms per pixel, minimal 3 detik
+                            const scrollDuration = Math.max(3000, maxScroll * 30); 
+                            let startTime = null;
+                            
+                            function scrollAnim(currentTime) {
+                                if (!startTime) startTime = currentTime;
+                                const elapsed = currentTime - startTime;
+                                const progress = Math.min(elapsed / scrollDuration, 1);
+                                
+                                staffContainer.scrollTop = progress * maxScroll;
+                                
+                                if (progress < 1) {
+                                    requestAnimationFrame(scrollAnim);
+                                } else {
+                                    // Selesai scroll ke bawah, tunggu 2 detik sebelum pindah shift
+                                    rotationInterval = setTimeout(performRotation, 2000);
+                                }
+                            }
+                            requestAnimationFrame(scrollAnim);
+                        } else {
+                            // Jika tidak perlu scroll, tunggu 4 detik seperti biasa
+                            rotationInterval = setTimeout(performRotation, 4000);
+                        }
+                    }, 1500); // Waktu baca awal di bagian atas
+                    
+                }, 300); // Waktu tunggu fade out
+            }
+
+            rotationInterval = setTimeout(performRotation, 4000);
+        }
+
+        function updateDashboardRealtime() {
+            const now = new Date();
+            const dayNum = now.getDate();
+            const mSelect = parseInt(document.getElementById('select-bulan').value);
+            const ySelect = parseInt(document.getElementById('select-tahun').value);
+            
+            document.getElementById('lbl-date-now').innerText = `${dayNum} ${NAMA_BULAN[mSelect]}`;
+
+            let labelDisplay = '';
+            let hoursDisplay = '';
+            let checkedCodes = [];
+
+            document.getElementById('dot-1').className = `w-2 h-2 rounded-full ${currentRotationShift === 1 ? 'bg-blue-600 scale-125':'bg-slate-300'}`;
+            document.getElementById('dot-2').className = `w-2 h-2 rounded-full ${currentRotationShift === 2 ? 'bg-amber-500 scale-125':'bg-slate-300'}`;
+            document.getElementById('dot-3').className = `w-2 h-2 rounded-full ${currentRotationShift === 3 ? 'bg-purple-600 scale-125':'bg-slate-300'}`;
+
+            if (currentRotationShift === 1) {
+                labelDisplay = 'Shift 1 / WFH Pagi';
+                hoursDisplay = '08.00 – 17.00 WIB';
+                checkedCodes = ['1', 'S1', 'WFH1', 'NS'];
+                document.getElementById('card-active-shift').className = "p-4 rounded-xl border border-blue-200 bg-blue-50/50 dark:bg-blue-950/20 flex flex-col justify-between transition-all duration-300";
+            } else if (currentRotationShift === 2) {
+                labelDisplay = 'Shift 2 / WFH Siang';
+                hoursDisplay = '14.00 – 22.00 WIB';
+                checkedCodes = ['2', 'S2', 'WFH2'];
+                document.getElementById('card-active-shift').className = "p-4 rounded-xl border border-amber-200 bg-amber-50/50 dark:bg-amber-950/20 flex flex-col justify-between transition-all duration-300";
+            } else if (currentRotationShift === 3) {
+                labelDisplay = 'Shift 3 (Malam)';
+                hoursDisplay = '23.00 – 08.00 WIB';
+                checkedCodes = ['3', 'S3'];
+                document.getElementById('card-active-shift').className = "p-4 rounded-xl border border-purple-200 bg-purple-50/50 dark:bg-purple-950/20 flex flex-col justify-between transition-all duration-300";
+            }
+
+            document.getElementById('lbl-active-shift').innerText = labelDisplay;
+            document.getElementById('lbl-active-hours').innerHTML = `<i class="fa-regular fa-clock mr-1"></i> ${hoursDisplay}`;
+
+            const container = document.getElementById('list-active-staff');
+            container.innerHTML = '';
+
+            if(!generatedSchedule || generatedSchedule.month !== mSelect || generatedSchedule.year !== ySelect) {
+                container.innerHTML = `<span class="text-slate-400 italic text-[11px]">Jadwal periode ini belum di-generate/di-import.</span>`;
+                return;
+            }
+
+            let duty = [];
+            generatedSchedule.data.forEach(emp => {
+                if(dayNum - 1 >= emp.schedule.length) return;
+                let code = String(emp.schedule[dayNum - 1]).toUpperCase().trim();
+                
+                if (checkedCodes.includes(code)) {
+                    duty.push({ name: emp.name, code: code });
+                }
+            });
+
+            if(duty.length === 0) {
+                container.innerHTML = `<span class="text-slate-400 italic text-[11px]">Tidak ada staff bertugas di ${labelDisplay} hari ini.</span>`;
+            } else {
+                let dutyOffice = duty.filter(st => !st.code.startsWith('WFH'));
+                let dutyWfh = duty.filter(st => st.code.startsWith('WFH'));
+                
+                function renderCard(st) {
+                    let iconColor = 'text-slate-400';
+                    let codeColor = 'text-slate-600 dark:text-slate-300';
+                    
+                    if (st.code === 'NS') { 
+                        codeColor = 'text-emerald-600 dark:text-emerald-400'; 
+                        iconColor = 'text-emerald-500'; 
+                    } else if (st.code === '2' || st.code === 'S2' || st.code === 'WFH2') { 
+                        codeColor = 'text-amber-600 dark:text-amber-400'; 
+                        iconColor = 'text-amber-500'; 
+                    } else if (st.code === '3' || st.code === 'S3') { 
+                        codeColor = 'text-blue-600 dark:text-blue-400'; 
+                        iconColor = 'text-blue-500'; 
+                    }
+                    
+                    return `
+                        <div class="flex items-center gap-3 p-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-sm w-full transition-transform hover:scale-[1.01]">
+                            <div class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center flex-shrink-0 overflow-hidden shadow-inner border border-slate-200 dark:border-slate-600">
+                                <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(st.name)}&backgroundColor=b6e3f4,c0aede,d1d4f9,ffdfbf,ffd5dc" alt="avatar" class="w-full h-full object-cover" loading="lazy">
+                            </div>
+                            <div class="flex flex-col justify-center overflow-hidden">
+                                <span class="font-bold text-slate-800 dark:text-white text-[11px] truncate" title="${st.name}">${st.name}</span>
+                                <span class="text-[10px] font-bold ${codeColor} mt-0.5">${st.code}</span>
+                            </div>
+                        </div>`;
+                }
+
+                let finalHtml = '';
+                
+                dutyOffice.forEach(st => {
+                    finalHtml += renderCard(st);
+                });
+                
+                if (dutyWfh.length > 0) {
+                    if (dutyOffice.length > 0) {
+                        finalHtml += `
+                            <div class="w-full flex items-center justify-center my-2 relative">
+                                <hr class="w-full border-dashed border-slate-300 dark:border-slate-600">
+                                <span class="absolute bg-slate-50 dark:bg-slate-800/70 px-2 text-[9px] font-black text-sky-500 uppercase tracking-widest rounded-full">WORK FROM HOME</span>
+                            </div>`;
+                    }
+                    dutyWfh.forEach(st => {
+                        finalHtml += renderCard(st);
+                    });
+                }
+                
+                container.innerHTML = finalHtml;
+            }
+        }
+
+        function handleEmployeeAction() {
+            if (CURRENT_ROLE !== 'Admin') return;
+            const input = document.getElementById('input-nama');
+            const name = input.value.trim();
+            const type = document.querySelector('input[name="jenis_kerja"]:checked').value;
+            const gender = document.querySelector('input[name="jenis_kelamin"]:checked').value;
+            if(!name) return;
+
+            if(activeEditId) {
+                employees = employees.map(e => e.id === activeEditId ? { ...e, name, type, gender } : e);
+                activeEditId = null;
+                document.getElementById('btn-add-employee').innerHTML = `<i class="fa-solid fa-plus"></i> Tambah Karyawan`;
+            } else {
+                employees.push({ id: 'EMP_' + Date.now(), name, type, gender });
+            }
+            input.value = '';
+            saveToLocalStorage();
+            renderAllDataWithFilter();
+        }
+
+        function editEmployee(id) {
+            if (CURRENT_ROLE !== 'Admin') return;
+            const emp = employees.find(e => e.id === id);
+            if(!emp) return;
+            document.getElementById('input-nama').value = emp.name;
+            document.querySelector(`input[name="jenis_kerja"][value="${emp.type}"]`).checked = true;
+            if(emp.gender) document.querySelector(`input[name="jenis_kelamin"][value="${emp.gender}"]`).checked = true;
+            activeEditId = id;
+            document.getElementById('btn-add-employee').innerHTML = `<i class="fa-solid fa-pen-to-square"></i> Perbarui Karyawan`;
+        }
+
+        function removeEmployee(id) {
+            if (CURRENT_ROLE !== 'Admin') return;
+            if(confirm("Hapus karyawan ini dari database aktif?")) {
+                employees = employees.filter(e => e.id !== id);
+                if(generatedSchedule) generatedSchedule = null;
+                saveToLocalStorage();
+                renderAllDataWithFilter();
+            }
+        }
+
+        function escapeExcelHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function getShiftExcelStyle(code) {
+            const cleanCode = String(code || '').toUpperCase().trim();
+            const palette = {
+                '1': 'background:#ffffff;color:#1e293b;font-weight:700;',
+                'S1': 'background:#ffffff;color:#1e293b;font-weight:700;',
+                '2': 'background:#facc15;color:#1e293b;font-weight:700;',
+                'S2': 'background:#facc15;color:#1e293b;font-weight:700;',
+                '3': 'background:#3b82f6;color:#ffffff;font-weight:700;',
+                'S3': 'background:#3b82f6;color:#ffffff;font-weight:700;',
+                'WFH1': 'background:#ffffff;color:#1e293b;font-weight:700;',
+                'WFH2': 'background:#facc15;color:#1e293b;font-weight:700;',
+                'NS': 'background:#10b981;color:#ffffff;font-weight:700;',
+                'L': 'background:#ef4444;color:#ffffff;font-weight:700;',
+                'C': 'background:#fb7185;color:#ffffff;font-weight:700;'
+            };
+            return palette[cleanCode] || 'background:#ffffff;color:#0f172a;';
+        }
+
+        function calculateExportStats(schedule, totalDays) {
+            let stats = { hariKerja: 0, s1: 0, s2: 0, s3: 0, libur: 0, cuti: 0, wfh: 0 };
+            for (let i = 0; i < totalDays; i++) {
+                const code = String(schedule[i] || '').toUpperCase().trim();
+                if (['1', 'S1'].includes(code)) { stats.s1++; stats.hariKerja++; }
+                else if (['2', 'S2'].includes(code)) { stats.s2++; stats.hariKerja++; }
+                else if (['3', 'S3'].includes(code)) { stats.s3++; stats.hariKerja++; }
+                else if (['WFH1', 'WFH2'].includes(code)) { stats.wfh++; stats.hariKerja++; }
+                else if (code === 'C') stats.cuti++;
+                else if (code === 'L') stats.libur++;
+            }
+            return stats;
+        }
+
+        function generateExportHtml(isPdf = false) {
+            if(!generatedSchedule) return "";
+
+            const month = generatedSchedule.month;
+            const year = generatedSchedule.year;
+            const totalDays = generatedSchedule.customDaysCount || new Date(year, month + 1, 0).getDate();
+            const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const searchKeyword = document.getElementById('search-matriks').value.toLowerCase();
+            const filteredExport = generatedSchedule.data.filter(emp => emp.name.toLowerCase().includes(searchKeyword));
+            const totalColumns = totalDays + 10;
+
+            let dateHeaders = '';
+            let dayHeaders = '';
+            for(let d = 1; d <= totalDays; d++) {
+                const dayIndex = new Date(year, month, d).getDay();
+                const weekendClass = (dayIndex === 0 || dayIndex === 6) ? ' weekend' : '';
+                dateHeaders += `<th class="date-col${weekendClass}">${d}</th>`;
+                dayHeaders += `<th class="day-col${weekendClass}">${dayNames[dayIndex]}</th>`;
+            }
+
+            let bodyRows = '';
+            filteredExport.forEach((emp, index) => {
+                const stats = calculateExportStats(emp.schedule, totalDays);
+                let scheduleCells = '';
+                for(let i = 0; i < totalDays; i++) {
+                    const code = String(emp.schedule[i] || '').toUpperCase().trim();
+                    scheduleCells += `<td class="shift-cell" style="${getShiftExcelStyle(code)}">${escapeExcelHtml(code)}</td>`;
+                }
+
+                bodyRows += `
+                    <tr>
+                        <td class="number-cell">${index + 1}</td>
+                        <td class="name-cell">${escapeExcelHtml(emp.name)}</td>
+                        <td class="type-cell">${emp.type === 'Shift' ? 'SH' : 'NS'}</td>
+                        ${scheduleCells}
+                        <td class="summary-cell total-work">${stats.hariKerja}</td>
+                        <td class="summary-cell">${stats.s1}</td>
+                        <td class="summary-cell">${stats.s2}</td>
+                        <td class="summary-cell">${stats.s3}</td>
+                        <td class="summary-cell">${stats.libur}</td>
+                        <td class="summary-cell cuti">${stats.cuti}</td>
+                        <td class="summary-cell wfh">${stats.wfh}</td>
+                    </tr>
+                `;
+            });
+
+            if(filteredExport.length === 0) {
+                bodyRows = `<tr><td colspan="${totalColumns}" class="empty-cell">Tidak ada data sesuai filter pencarian.</td></tr>`;
+            }
+
+            let excelMeta = '';
+            if (!isPdf) {
+                excelMeta = `
+                    <!--[if gte mso 9]><xml>
+                        <x:ExcelWorkbook>
+                            <x:ExcelWorksheets>
+                                <x:ExcelWorksheet>
+                                    <x:Name>Jadwal Shift</x:Name>
+                                    <x:WorksheetOptions>
+                                        <x:DisplayGridlines/>
+                                        <x:FreezePanes/>
+                                        <x:FrozenNoSplit/>
+                                        <x:SplitHorizontal>4</x:SplitHorizontal>
+                                        <x:TopRowBottomPane>4</x:TopRowBottomPane>
+                                        <x:ActivePane>2</x:ActivePane>
+                                    </x:WorksheetOptions>
+                                </x:ExcelWorksheet>
+                            </x:ExcelWorksheets>
+                        </x:ExcelWorkbook>
+                    </xml><![endif]-->
+                `;
+            }
+
+            const html = `
+                <html xmlns:o="urn:schemas-microsoft-com:office:office"
+                      xmlns:x="urn:schemas-microsoft-com:office:excel"
+                      xmlns="http://www.w3.org/TR/REC-html40">
+                <head>
+                    <meta charset="UTF-8">
+                    ${excelMeta}
+                    <style>
+                        body { font-family: Calibri, Arial, sans-serif; }
+                        table { border-collapse: collapse; }
+                        th, td {
+                            border: 1px solid #000000;
+                            padding: 4px 6px;
+                            font-size: 11pt;
+                            vertical-align: middle;
+                            mso-number-format: "\\@";
+                        }
+                        .title {
+                            background: #1f4e78;
+                            color: #ffffff;
+                            font-size: 16pt;
+                            font-weight: 700;
+                            text-align: center;
+                            height: 28px;
+                        }
+                        .subtitle {
+                            background: #d9eaf7;
+                            color: #0f172a;
+                            font-size: 13pt;
+                            font-weight: 700;
+                            text-align: center;
+                            height: 24px;
+                        }
+                        .main-header, .date-col {
+                            background: #8db4e2;
+                            color: #000000;
+                            font-weight: 700;
+                            text-align: center;
+                        }
+                        .day-col {
+                            background: #d9eaf7;
+                            color: #000000;
+                            font-size: 9pt;
+                            font-weight: 700;
+                            text-align: center;
+                            width: 48px;
+                        }
+                        .weekend {
+                            color: #c00000;
+                        }
+                        .number-cell {
+                            text-align: center;
+                            width: 36px;
+                        }
+                        .name-cell {
+                            text-align: left;
+                            width: 230px;
+                            font-weight: 600;
+                        }
+                        .type-cell {
+                            text-align: center;
+                            width: 42px;
+                            font-weight: 700;
+                        }
+                        .shift-cell {
+                            text-align: center;
+                            width: 48px;
+                            height: 22px;
+                        }
+                        .summary-group {
+                            background: #548235;
+                            color: #ffffff;
+                            font-weight: 700;
+                            text-align: center;
+                        }
+                        .summary-head {
+                            background: #a9d18e;
+                            color: #000000;
+                            font-weight: 700;
+                            text-align: center;
+                            width: 48px;
+                        }
+                        .summary-cell {
+                            text-align: center;
+                            font-weight: 700;
+                            background: #f8fafc;
+                        }
+                        .total-work {
+                            background: #dbeafe;
+                            color: #1d4ed8;
+                        }
+                        .cuti {
+                            background: #ffe4e6;
+                            color: #be123c;
+                        }
+                        .wfh {
+                            background: #e0f2fe;
+                            color: #0369a1;
+                        }
+                        .empty-cell {
+                            text-align: center;
+                            font-style: italic;
+                            color: #64748b;
+                            height: 32px;
+                        }
+                        .legend-title {
+                            background: #548235;
+                            color: #ffffff;
+                            font-weight: 700;
+                            text-align: center;
+                        }
+                        .legend-code {
+                            background: #a9d18e;
+                            color: #000000;
+                            font-weight: 700;
+                            text-align: center;
+                            width: 70px;
+                        }
+                        .legend-text {
+                            background: #ffffff;
+                            color: #000000;
+                            text-align: left;
+                            width: 180px;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <table>
+                        <tr><th colspan="${totalColumns}" class="title">Jadwal Shift Divisi Ophar Billing Terpusat AP2T</th></tr>
+                        <tr><th colspan="${totalColumns}" class="subtitle">${NAMA_BULAN[month].toUpperCase()} ${year}</th></tr>
+                        <tr>
+                            <th rowspan="2" class="main-header">NO</th>
+                            <th rowspan="2" class="main-header">NAMA</th>
+                            <th rowspan="2" class="main-header">TIPE</th>
+                            ${dateHeaders}
+                            <th colspan="7" class="summary-group">REKAP</th>
+                        </tr>
+                        <tr>
+                            ${dayHeaders}
+                            <th class="summary-head">HK</th>
+                            <th class="summary-head">S1</th>
+                            <th class="summary-head">S2</th>
+                            <th class="summary-head">S3</th>
+                            <th class="summary-head">L</th>
+                            <th class="summary-head">C</th>
+                            <th class="summary-head">WFH</th>
+                        </tr>
+                        ${bodyRows}
+                        <tr><td colspan="${totalColumns}" style="border:none;height:12px;"></td></tr>
+                        <tr>
+                            <th colspan="2" class="legend-title">KETERANGAN REKAP</th>
+                            <td colspan="${totalColumns - 2}" style="border:none;"></td>
+                        </tr>
+                        <tr>
+                            <td class="legend-code">HK</td>
+                            <td class="legend-text">Hari Kerja</td>
+                            <td colspan="${totalColumns - 2}" style="border:none;"></td>
+                        </tr>
+                        <tr>
+                            <td class="legend-code">S1</td>
+                            <td class="legend-text">Shift Pagi</td>
+                            <td colspan="${totalColumns - 2}" style="border:none;"></td>
+                        </tr>
+                        <tr>
+                            <td class="legend-code">S2</td>
+                            <td class="legend-text">Shift Siang</td>
+                            <td colspan="${totalColumns - 2}" style="border:none;"></td>
+                        </tr>
+                        <tr>
+                            <td class="legend-code">S3</td>
+                            <td class="legend-text">Shift Malam</td>
+                            <td colspan="${totalColumns - 2}" style="border:none;"></td>
+                        </tr>
+                        <tr>
+                            <td class="legend-code">L</td>
+                            <td class="legend-text">Libur</td>
+                            <td colspan="${totalColumns - 2}" style="border:none;"></td>
+                        </tr>
+                        <tr>
+                            <td class="legend-code">C</td>
+                            <td class="legend-text">Cuti</td>
+                            <td colspan="${totalColumns - 2}" style="border:none;"></td>
+                        </tr>
+                        <tr>
+                            <td class="legend-code">WFH</td>
+                            <td class="legend-text">Work From Home</td>
+                            <td colspan="${totalColumns - 2}" style="border:none;"></td>
+                        </tr>
+                    </table>
+                </body>
+                </html>
+            `;
+            return html;
+        }
+
+        function doExportExcel() {
+            if(!generatedSchedule) return;
+            const html = generateExportHtml(false);
+
+            const blob = new Blob(['\ufeff', html], { type: 'application/vnd.ms-excel;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `Jadwal_Terintegrasi_${NAMA_BULAN[generatedSchedule.month]}_${generatedSchedule.year}.xls`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            showToast("Export Excel berhasil dibuat dengan format tabel rapi.");
+        }
+
+        function doExportPDF() {
+            if(!generatedSchedule) return;
+            
+            showToast("Sedang memproses PDF dari format Excel, mohon tunggu sebentar...", "info");
+
+            const htmlContent = generateExportHtml(true);
+            
+            // Buat kontainer sementara
+            const container = document.createElement('div');
+            container.innerHTML = htmlContent;
+            
+            // html2pdf butuh elemen yang ada di dalam body untuk mengukur lebarnya dengan akurat.
+            // Kita taruh di luar layar (absolute) agar tidak merusak tampilan.
+            container.style.position = 'absolute';
+            container.style.top = '-9999px';
+            container.style.left = '-9999px';
+            // Pastikan lebar konten cukup untuk menampung tabel
+            container.style.width = 'max-content';
+            document.body.appendChild(container);
+
+            setTimeout(() => {
+                html2pdf().set({
+                    margin: 0.4,
+                    filename: `Jadwal_Visual_Bulanan.pdf`,
+                    html2canvas: { scale: 2, useCORS: true, windowWidth: container.scrollWidth },
+                    jsPDF: { format: 'a3', orientation: 'landscape' }
+                }).from(container).save().then(() => {
+                    document.body.removeChild(container);
+                    showToast("PDF berhasil diunduh!", "success");
+                }).catch(err => {
+                    console.error("PDF Export Error: ", err);
+                    document.body.removeChild(container);
+                    showToast("Gagal mengekspor PDF, silakan coba lagi.", "error");
+                });
+            }, 300);
+        }
+
+        function toggleDarkMode() { document.documentElement.classList.toggle('dark'); }
+        
+        function saveToLocalStorage() {
+            localStorage.setItem('sch_emp_v7', JSON.stringify(employees));
+            localStorage.setItem('sch_mat_v7', JSON.stringify(generatedSchedule));
+        }
+        
+        function loadFromLocalStorage() {
+            const e = localStorage.getItem('sch_emp_v7');
+            const s = localStorage.getItem('sch_mat_v7');
+            const r = localStorage.getItem('sch_role_v7');
+            if(e) employees = JSON.parse(e);
+            if(s) generatedSchedule = JSON.parse(s);
+            if(r) CURRENT_ROLE = r;
+        }
+        
+        function resetAllData() {
+            if (CURRENT_ROLE !== 'Admin') return;
+            if(confirm("Reset seluruh database?")) {
+                localStorage.clear();
+                employees = []; generatedSchedule = null; CURRENT_ROLE = "User";
+                document.getElementById('search-karyawan').value = '';
+                document.getElementById('search-matriks').value = '';
+                renderAllDataWithFilter(); applyRoleUI();
+            }
+        }
     </script>
 </body>
 </html>
