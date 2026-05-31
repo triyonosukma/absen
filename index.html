@@ -419,6 +419,55 @@
 
         const NAMA_BULAN = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
+        function guessGender(name) {
+            if (!name) return 'L';
+            const lowercaseName = name.toLowerCase().trim();
+            
+            // 1. Exact match against known female list of the 61 employees
+            const femaleNames = [
+                'risalatulina dwi kunarti',  'ezra andriani sihotang',
+                'tia asrina', 'reyka firdhaulisia julyanti', 'tienneke andini prameswari',
+                'inggit restu illahi', 'karina muditadevi', 'deby alvionita', 'syifa fauziah',
+                'soraya annisa', 'sofie khairun nisa', 'putu secylia arya medani', 'rinna bahar'
+            ];
+            if (femaleNames.includes(lowercaseName)) return 'P';
+            
+            // 2. Exact match against known male list of the 61 employees to avoid false positives
+            const maleNames = [
+                'yuli setiawan', 'firmansyah', 'sukma triyono priyo', 'fathol laili','karyani', 'mardiyana',
+                'm ridho anshor', 'erwin budi mulya', 'syahrulloh', 'adhi setiawan',
+                'hardhiyanto eko saputro', 'agus maryono', 'imam kuncoro', 'titis andre harza',
+                'muhammad nabhan', 'polma saut martua sihotang', 'ucu surya nugraha',
+                'muhammad darajatun mudzakir', 'teduh mulyo prabowo', 'diki abdul malik',
+                'akbar widiawan', 'idham rizky sapala', 'farhan hakiki', 'muhammad fikri',
+                'syahrul gunawan', 'muhammad wahyu ramdhani', 'dama yusuf effendi',
+                'panji juniadi', 'toni kurniawan', 'fadhilah perwira hadi',
+                'josua cong yapo mahendra sitanggang', 'rifky deby prayoga', 'dian lesmana',
+                'zamrud baginda', 'fransiscus dharma hadi prayoga', 'muhammad zaid al khair',
+                'lutfi indiarto wirayuda', 'dery frawijaya', 'andika dimas saputra',
+                'muhammad farhan fadhilah', 'rayhan jatrashoma', 'aji gilang rahmanda',
+                'fahmi fahreza ahmad', 'agasta gumelar pratama', 'muhammad jafar ikbal',
+                'taufik arifani', 'asep yudi'
+            ];
+            if (maleNames.includes(lowercaseName)) return 'L';
+            
+            // 3. Fallback smart heuristics for newly added employees
+            const femaleIndicators = [
+                'wati', 'putri', 'lestari', 'sari', 'ayu', 'puji', 'sri', 'dwi', 'ani',
+                'tri', 'ria', 'lia', 'ita', 'fia', 'rina', 'lina', 'tina', 'nani', 'kartini',
+                'indah', 'fitri', 'nur', 'anisa', 'siti', 'rahmadani', 'sulastri', 'utami',
+                'dewi', 'wulan', 'dian', 'eka', 'mega', 'ratna', 'yuni', 'dina', 'anggi',
+                'risalatulina', 'karyani', 'mardiyana', 'andini', 'secylia', 'sofie'
+            ];
+            for (let word of lowercaseName.split(/\s+/)) {
+                if (femaleIndicators.includes(word)) return 'P';
+                for (let suffix of ['wati', 'putri', 'sari', 'tina', 'rina', 'lina', 'ita', 'ani', 'lia', 'yana']) {
+                    if (word.length > suffix.length && word.endsWith(suffix)) return 'P';
+                }
+            }
+            return 'L';
+        }
+
         const SHIFT_RULES = {
             '1':   { label: 'Shift Pagi', hours: '08.00–17.00', colorClass: 'bg-white text-slate-800 border border-slate-300 dark:bg-slate-800 dark:text-white dark:border-slate-600 font-bold' },
             'S1':  { label: 'Shift Pagi', hours: '08.00–17.00', colorClass: 'bg-white text-slate-800 border border-slate-300 dark:bg-slate-800 dark:text-white dark:border-slate-600 font-bold' },
@@ -458,8 +507,11 @@
                     const parsedData = JSON.parse(rawText);
                     if (parsedData && parsedData.data && Array.isArray(parsedData.data)) {
                         generatedSchedule = parsedData;
+                        generatedSchedule.data.forEach(item => {
+                            if (!item.gender) item.gender = guessGender(item.name);
+                        });
                         employees = parsedData.data.map(item => ({
-                            id: item.id, name: item.name, type: item.type
+                            id: item.id, name: item.name, type: item.type, gender: item.gender || guessGender(item.name)
                         }));
                         saveToLocalStorage();
                         showToast("Berhasil memuat data dari GitHub Backup!");
@@ -471,7 +523,7 @@
             }
 
             try {
-                const excelResponse = await fetch('./JADWAL SHIFT MEI 2026.xlsx');
+                const excelResponse = await fetch('./JADWAL SHIFT JUNI 2026.xlsx');
                 if (excelResponse.ok) {
                     const arrayBuffer = await excelResponse.arrayBuffer();
                     const data = new Uint8Array(arrayBuffer);
@@ -515,9 +567,10 @@
 
                         let empId = 'EMP_' + Math.random().toString(36).substr(2, 9);
                         let isShiftEmp = scheduleArray.some(code => ['1','2','3','S1','S2','S3','WFH1','WFH2'].includes(code.toUpperCase()));
+                        let gender = guessGender(empName);
 
-                        importedEmployees.push({ id: empId, name: empName, type: isShiftEmp ? 'Shift' : 'Non Shift' });
-                        detectedMatrix.push({ id: empId, name: empName, type: isShiftEmp ? 'Shift' : 'Non Shift', schedule: scheduleArray });
+                        importedEmployees.push({ id: empId, name: empName, type: isShiftEmp ? 'Shift' : 'Non Shift', gender: gender });
+                        detectedMatrix.push({ id: empId, name: empName, type: isShiftEmp ? 'Shift' : 'Non Shift', gender: gender, schedule: scheduleArray });
                     }
 
                     if (detectedMatrix.length > 0) {
@@ -686,15 +739,29 @@
                         <button onclick="removeEmployee('${e.id}')" class="p-1 text-rose-500 hover:bg-slate-100 rounded cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
                     </td>` : '';
 
+                let dbAvatarUrl = '';
+                const empGender = e.gender || guessGender(e.name);
+                if (empGender === 'P') {
+                    dbAvatarUrl = `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(e.name)}&backgroundColor=b6e3f4,c0aede,d1d4f9,ffdfbf,ffd5dc&top=bigHair,bob,bun,curly,curvy,frida,fro,froAndBand,longButNotTooLong,miaWallace,straight01,straight02,straightAndStrand,hijab&facialHairProbability=0`;
+                } else {
+                    dbAvatarUrl = `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(e.name)}&backgroundColor=b6e3f4,c0aede,d1d4f9,ffdfbf,ffd5dc&top=dreads01,dreads02,frizzle,shaggy,shaggyMullet,shavedSides,shortCurly,shortFlat,shortRound,shortWaved,sides,theCaesar,theCaesarAndSidePart`;
+                }
+
                 tbody.innerHTML += `
                     <tr class="border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50/50 dark:hover:bg-slate-800/50">
-                        <td class="p-2 font-semibold text-slate-700 dark:text-slate-300">
-                            ${e.gender === 'P' ? '<i class="fa-solid fa-venus text-pink-500 mr-1" title="Perempuan"></i>' : '<i class="fa-solid fa-mars text-blue-500 mr-1" title="Laki-laki"></i>'}
-                            ${e.name}
+                        <td class="p-2 font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                            <div class="w-6 h-6 rounded-full overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 flex-shrink-0">
+                                <img src="${dbAvatarUrl}" alt="avatar" class="w-full h-full object-cover" loading="lazy">
+                            </div>
+                            <span class="flex items-center gap-1">
+                                ${empGender === 'P' ? '<i class="fa-solid fa-venus text-pink-500 text-[10px]" title="Perempuan"></i>' : '<i class="fa-solid fa-mars text-blue-500 text-[10px]" title="Laki-laki"></i>'}
+                                ${e.name}
+                            </span>
                         </td>
                         <td class="p-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold ${e.type === 'Shift' ? 'bg-blue-100 text-blue-700':'bg-emerald-100 text-emerald-700'}">${e.type}</span></td>
                         ${actionButtonsHtml}
                     </tr>
+
                 `;
             });
         }
@@ -765,9 +832,10 @@
 
                         let empId = 'EMP_' + Math.random().toString(36).substr(2, 9);
                         let isShiftEmp = scheduleArray.some(code => ['1','2','3','S1','S2','S3','WFH1','WFH2'].includes(code.toUpperCase()));
+                        let gender = guessGender(empName);
 
-                        importedEmployees.push({ id: empId, name: empName, type: isShiftEmp ? 'Shift' : 'Non Shift' });
-                        detectedMatrix.push({ id: empId, name: empName, type: isShiftEmp ? 'Shift' : 'Non Shift', schedule: scheduleArray });
+                        importedEmployees.push({ id: empId, name: empName, type: isShiftEmp ? 'Shift' : 'Non Shift', gender: gender });
+                        detectedMatrix.push({ id: empId, name: empName, type: isShiftEmp ? 'Shift' : 'Non Shift', gender: gender, schedule: scheduleArray });
                     }
 
                     if (detectedMatrix.length > 0) {
@@ -814,11 +882,16 @@
                     if (parsedData && parsedData.data && Array.isArray(parsedData.data)) {
                         generatedSchedule = parsedData;
                         
+                        generatedSchedule.data.forEach(item => {
+                            if (!item.gender) item.gender = guessGender(item.name);
+                        });
+                        
                         // Re-build data karyawan dari data backup txt
                         employees = parsedData.data.map(item => ({
                             id: item.id,
                             name: item.name,
-                            type: item.type
+                            type: item.type,
+                            gender: item.gender || guessGender(item.name)
                         }));
                         
                         // Sinkronkan elemen UI selektor bulan & tahun sesuai file backup
@@ -1089,7 +1162,7 @@
                             }
                         }
 
-                        matrix.push({ id: emp.id, name: emp.name, type: emp.type, schedule: empSched });
+                        matrix.push({ id: emp.id, name: emp.name, type: emp.type, gender: emp.gender, schedule: empSched });
                     });
 
                     let targetHariKerja = parseInt(document.getElementById('input-hari-kerja').value) || 21;
@@ -1408,7 +1481,7 @@
                 let code = String(emp.schedule[dayNum - 1]).toUpperCase().trim();
                 
                 if (checkedCodes.includes(code)) {
-                    duty.push({ name: emp.name, code: code });
+                    duty.push({ name: emp.name, code: code, gender: emp.gender || guessGender(emp.name) });
                 }
             });
 
@@ -1433,10 +1506,16 @@
                         iconColor = 'text-blue-500'; 
                     }
                     
+                    let avatarUrl = '';
+                    if (st.gender === 'P') {
+                        avatarUrl = `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(st.name)}&backgroundColor=b6e3f4,c0aede,d1d4f9,ffdfbf,ffd5dc&top=bigHair,bob,bun,curly,curvy,frida,fro,froAndBand,longButNotTooLong,miaWallace,straight01,straight02,straightAndStrand,hijab&facialHairProbability=0`;
+                    } else {
+                        avatarUrl = `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(st.name)}&backgroundColor=b6e3f4,c0aede,d1d4f9,ffdfbf,ffd5dc&top=dreads01,dreads02,frizzle,shaggy,shaggyMullet,shavedSides,shortCurly,shortFlat,shortRound,shortWaved,sides,theCaesar,theCaesarAndSidePart`;
+                    }
                     return `
                         <div class="flex items-center gap-3 p-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-sm w-full transition-transform hover:scale-[1.01]">
                             <div class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center flex-shrink-0 overflow-hidden shadow-inner border border-slate-200 dark:border-slate-600">
-                                <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(st.name)}&backgroundColor=b6e3f4,c0aede,d1d4f9,ffdfbf,ffd5dc" alt="avatar" class="w-full h-full object-cover" loading="lazy">
+                                <img src="${avatarUrl}" alt="avatar" class="w-full h-full object-cover" loading="lazy">
                             </div>
                             <div class="flex flex-col justify-center overflow-hidden">
                                 <span class="font-bold text-slate-800 dark:text-white text-[11px] truncate" title="${st.name}">${st.name}</span>
