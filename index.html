@@ -501,7 +501,7 @@
 
         async function autoLoadBackupData() {
             try {
-                const txtResponse = await fetch('https://raw.githubusercontent.com/triyonosukma/absen/main/BACKUP_JADWAL_Mei_2026.txt');
+                const txtResponse = await fetch('https://raw.githubusercontent.com/triyonosukma/absen/main/BACKUP_JADWAL_JUNI_2026.txt');
                 if (txtResponse.ok) {
                     const rawText = await txtResponse.text();
                     const parsedData = JSON.parse(rawText);
