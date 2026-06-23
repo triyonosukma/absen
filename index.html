@@ -853,6 +853,7 @@
                         triggerAutoTxtBackup(generatedSchedule);
                         
                         showToast(`Sukses mengimpor ${detectedMatrix.length} karyawan & Dicadangkan ke TXT!`);
+                        reloadWithLatestData();
                     } else {
                         showToast("Matriks jadwal kosong.", "error");
                     }
@@ -901,6 +902,7 @@
                         saveToLocalStorage();
                         renderAllDataWithFilter();
                         showToast("Sukses me-restore matriks jadwal dari file TXT!");
+                        reloadWithLatestData();
                     } else {
                         showToast("Format data file TXT backup tidak valid.", "error");
                     }
@@ -911,6 +913,12 @@
                 document.getElementById('input-txt-backup').value = '';
             };
             reader.readAsText(file);
+        }
+
+        function reloadWithLatestData() {
+            setTimeout(() => {
+                window.location.reload();
+            }, 900);
         }
 
         // FUNGSI PEMBANTU: PENGUNDUHAN OTOMATIS TXT SAAT UPLOAD SELESAI
