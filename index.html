@@ -1366,6 +1366,8 @@
             const petunjukEdit = document.getElementById('info-petunjuk-edit');
             const panelForm = document.getElementById('panel-form-karyawan');
             
+                            const githubActions = document.getElementById('github-actions');
+            
             if(CURRENT_ROLE === "Admin") {
                 btnAdmin.className = "px-5 py-2 rounded-lg text-xs font-bold flex items-center gap-1 transition-all bg-blue-600 text-white shadow-lg shadow-blue-600/20 cursor-pointer";
                 btnUser.className = "px-5 py-2 rounded-lg text-xs font-bold flex items-center gap-1 transition-all text-slate-200 hover:bg-white/10 cursor-pointer";
@@ -1373,6 +1375,7 @@
                 document.querySelectorAll('.user-only').forEach(el => el.classList.add('hidden'));
                 if(petunjukEdit) petunjukEdit.classList.remove('hidden');
                 if(panelForm) panelForm.classList.remove('hidden');
+                if(githubActions) githubActions.classList.remove('hidden');
                 document.getElementById('panel-database-karyawan').className = "app-card lg:col-span-2 bg-white dark:bg-slate-900 p-4 sm:p-6 rounded-lg border border-slate-200 dark:border-slate-800 flex flex-col";
             } else {
                 btnUser.className = "px-5 py-2 rounded-lg text-xs font-bold flex items-center gap-1 transition-all bg-blue-600 text-white shadow-lg shadow-blue-600/20 cursor-pointer";
@@ -1381,6 +1384,7 @@
                 document.querySelectorAll('.user-only').forEach(el => el.classList.remove('hidden'));
                 if(petunjukEdit) petunjukEdit.classList.add('hidden');
                 if(panelForm) panelForm.classList.add('hidden');
+                if(githubActions) githubActions.classList.add('hidden');
                 document.getElementById('panel-database-karyawan').className = "app-card lg:col-span-3 bg-white dark:bg-slate-900 p-4 sm:p-6 rounded-lg border border-slate-200 dark:border-slate-800 flex flex-col";
             }
 
