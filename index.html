@@ -2469,8 +2469,8 @@
                     employees.push({ id: 'EMP_' + Date.now(), name, type, gender });
                 }
                 input.value = '';
-                saveToLocalStorage();
                 renderAllDataWithFilter();
+                saveToGitHub(true);
             }
 
             function editEmployee(id) {
@@ -3075,6 +3075,7 @@
 
             async function saveToGitHub(showNotification = true) {
                 if (CURRENT_ROLE !== "Admin") return;
+                clearTimeout(githubSaveTimer);
                 const token = getGitHubToken();
                 if (!token) {
                     setGitHubStatus("Masukkan token untuk menyimpan ke GitHub.", "error");
