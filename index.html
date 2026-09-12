@@ -2458,6 +2458,11 @@
 
                 if (activeEditId) {
                     employees = employees.map(e => e.id === activeEditId ? { ...e, name, type, gender } : e);
+                    if (generatedSchedule?.data) {
+                        generatedSchedule.data = generatedSchedule.data.map(e =>
+                            e.id === activeEditId ? { ...e, name, type, gender } : e
+                        );
+                    }
                     activeEditId = null;
                     document.getElementById('btn-add-employee').innerHTML = `<i class="fa-solid fa-plus"></i> Tambah Karyawan`;
                 } else {
