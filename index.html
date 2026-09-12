@@ -3051,7 +3051,6 @@
             async function loadFromGitHub(showNotification = true) {
                 setGitHubStatus("Memuat data dari GitHub...");
                 try {
-                try {
                     const file = await githubRequest("GET", GITHUB_DATA_PATH, undefined, false);
                     const state = JSON.parse(decodeBase64Utf8(file.content));
                     employees = Array.isArray(state.employees) ? state.employees : [];
