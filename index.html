@@ -412,6 +412,23 @@
                             </button>
                         </div>
                         <div id="gas-cloud-actions" class="flex flex-col sm:flex-row gap-2 hidden">
+                        <div id="github-actions" class="mt-3 pt-3 border-t border-white/10 space-y-2">
+                            <p class="text-xs font-semibold text-slate-300"><i class="fa-brands fa-github text-slate-200"></i> Penyimpanan Jadwal GitHub</p>
+                            <input type="password" id="github-token" autocomplete="off"
+                                placeholder="GitHub Fine-grained Token (Contents: Read and write)"
+                                class="dashboard-input w-full p-2 rounded-lg text-xs outline-none">
+                            <div class="flex flex-col sm:flex-row gap-2">
+                                <button id="btn-github-load" type="button"
+                                    class="action-button flex-1 bg-sky-600 hover:bg-sky-700 text-white font-semibold py-2 px-3 rounded-lg text-xs flex items-center justify-center gap-1.5 cursor-pointer">
+                                    <i class="fa-solid fa-cloud-arrow-down"></i> Muat GitHub
+                                </button>
+                                <button id="btn-github-save" type="button"
+                                    class="action-button flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-3 rounded-lg text-xs flex items-center justify-center gap-1.5 cursor-pointer">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i> Simpan GitHub
+                                </button>
+                            </div>
+                            <p id="github-sync-status" class="text-[11px] text-slate-400">Belum terhubung</p>
+                        </div>
                             <button id="btn-cloud-save"
                                 class="action-button flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-3 rounded-lg transition-all text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-500/10 cursor-pointer">
                                 <i class="fa-solid fa-cloud-arrow-up"></i> Simpan Ke Sheet
@@ -847,6 +864,10 @@
         const DEFAULT_SCHEDULE_MONTH = 5; // Juni (JavaScript month index: 0 = Januari)
         const DEFAULT_SCHEDULE_YEAR = 2026;
         const IS_GAS = (typeof google !== 'undefined' && google.script && google.script.run);
+        const GITHUB_REPOSITORY = "triyonosukma/absen";
+        const GITHUB_DATA_PATH = "data/jadwal-shift.json";
+        let githubToken = "";
+        let githubSaveTimer = null;
 
         function guessGender(name) {
             if (!name) return 'L';
@@ -1214,6 +1235,8 @@
             addListenerIfExists('btn-export-excel', 'click', doExportExcel);
             addListenerIfExists('btn-export-pdf', 'click', doExportPDF);
             addListenerIfExists('btn-export-txt', 'click', doExportTxtFile);
+            addListenerIfExists('btn-github-load', 'click', loadFromGitHub);
+            addListenerIfExists('btn-github-save', 'click', () => saveToGitHub(true));
             
             // If in Apps Script, register cloud save and load listeners
             if (IS_GAS) {
@@ -1257,6 +1280,9 @@
             if (!document.getElementById('select-tahun').value) {
                 document.getElementById('select-tahun').value = DEFAULT_SCHEDULE_YEAR;
             }
+
+            const githubActions = document.getElementById('github-actions');
+            if (githubActions && CURRENT_ROLE !== "Admin") githubActions.classList.add('hidden');
 
             // Show cloud actions if inside Apps Script
             if (IS_GAS) {
@@ -2964,21 +2990,119 @@
                 document.body.classList.toggle('dark-dashboard', document.documentElement.classList.contains('dark'));
             }
 
+            function setGitHubStatus(message, tone = "normal") {
+                const el = document.getElementById('github-sync-status');
+                if (!el) return;
+                el.textContent = message;
+                el.className = `text-[11px] ${tone === "error" ? "text-rose-300" : tone === "success" ? "text-emerald-300" : "text-slate-400"}`;
+            }
+
+            function getGitHubToken() {
+                const input = document.getElementById('github-token');
+                return (input?.value || githubToken || "").trim();
+            }
+
+            function encodeBase64Utf8(value) {
+                const bytes = new TextEncoder().encode(value);
+                let binary = "";
+                bytes.forEach(byte => binary += String.fromCharCode(byte));
+                return btoa(binary);
+            }
+
+            function decodeBase64Utf8(value) {
+                const binary = atob(value.replace(/\n/g, ""));
+                const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
+                return new TextDecoder().decode(bytes);
+            }
+
+            async function githubRequest(method, path, body) {
+                const token = getGitHubToken();
+                if (!token) throw new Error("Masukkan GitHub token terlebih dahulu.");
+                const response = await fetch(`https://api.github.com/repos/${GITHUB_REPOSITORY}/contents/${path}`, {
+                    method,
+                    headers: {
+                        "Accept": "application/vnd.github+json",
+                        "Authorization": `Bearer ${token}`,
+                        "X-GitHub-Api-Version": "2022-11-28",
+                        ...(body ? { "Content-Type": "application/json" } : {})
+                    },
+                    body: body ? JSON.stringify(body) : undefined
+                });
+                const payload = await response.json().catch(() => ({}));
+                if (!response.ok) throw new Error(payload.message || `GitHub HTTP ${response.status}`);
+                return payload;
+            }
+
+            function createGitHubPayload() {
+                return {
+                    version: 1,
+                    updatedAt: new Date().toISOString(),
+                    employees,
+                    generatedSchedule
+                };
+            }
+
+            async function loadFromGitHub() {
+                if (CURRENT_ROLE !== "Admin") {
+                    showToast("Login sebagai Admin untuk memuat data dari GitHub.", "error");
+                    return;
+                }
+                setGitHubStatus("Memuat data dari GitHub...");
+                try {
+                    const file = await githubRequest("GET", GITHUB_DATA_PATH);
+                    const state = JSON.parse(decodeBase64Utf8(file.content));
+                    employees = Array.isArray(state.employees) ? state.employees : [];
+                    generatedSchedule = state.generatedSchedule || null;
+                    githubToken = getGitHubToken();
+                    renderAllDataWithFilter();
+                    setGitHubStatus(`Terakhir dimuat: ${new Date(state.updatedAt || Date.now()).toLocaleString("id-ID")}`, "success");
+                    showToast("Jadwal berhasil dimuat dari GitHub.", "success");
+                } catch (error) {
+                    console.error("GitHub load error:", error);
+                    setGitHubStatus(error.message, "error");
+                    showToast(`Gagal memuat GitHub: ${error.message}`, "error");
+                }
+            }
+
+            async function saveToGitHub(showNotification = true) {
+                if (CURRENT_ROLE !== "Admin") return;
+                const token = getGitHubToken();
+                if (!token) {
+                    setGitHubStatus("Masukkan token untuk menyimpan ke GitHub.", "error");
+                    return;
+                }
+                setGitHubStatus("Menyimpan jadwal ke GitHub...");
+                try {
+                    let currentFile = null;
+                    try { currentFile = await githubRequest("GET", GITHUB_DATA_PATH); } catch (error) {
+                        if (!/404|Not Found/i.test(error.message)) throw error;
+                    }
+                    const content = JSON.stringify(createGitHubPayload(), null, 2) + "\n";
+                    const body = {
+                        message: `chore: simpan jadwal shift ${new Date().toISOString()}`,
+                        content: encodeBase64Utf8(content),
+                        branch: "main",
+                        ...(currentFile?.sha ? { sha: currentFile.sha } : {})
+                    };
+                    await githubRequest("PUT", GITHUB_DATA_PATH, body);
+                    githubToken = token;
+                    setGitHubStatus(`Tersimpan: ${new Date().toLocaleString("id-ID")}`, "success");
+                    if (showNotification) showToast("Jadwal berhasil disimpan ke GitHub.", "success");
+                } catch (error) {
+                    console.error("GitHub save error:", error);
+                    setGitHubStatus(error.message, "error");
+                    if (showNotification) showToast(`Gagal menyimpan GitHub: ${error.message}`, "error");
+                }
+            }
+
             function saveToLocalStorage() {
-                safeSetItem('sch_emp_v7', JSON.stringify(employees));
-                safeSetItem('sch_mat_v7', JSON.stringify(generatedSchedule));
+                clearTimeout(githubSaveTimer);
+                githubSaveTimer = setTimeout(() => saveToGitHub(false), 800);
             }
 
             function loadFromLocalStorage() {
-                const e = safeGetItem('sch_emp_v7');
-                const s = safeGetItem('sch_mat_v7');
+                // Sumber data utama adalah GitHub. Tidak membaca jadwal dari localStorage.
                 const r = safeGetItem('sch_role_v7');
-                if (e) {
-                    try { employees = JSON.parse(e); } catch(err) { console.error(err); }
-                }
-                if (s) {
-                    try { generatedSchedule = JSON.parse(s); } catch(err) { console.error(err); }
-                }
                 if (r) CURRENT_ROLE = r;
             }
 
