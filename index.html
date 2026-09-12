@@ -1637,9 +1637,9 @@
             }
 
             function reloadWithLatestData() {
-                setTimeout(() => {
-                    window.location.reload();
-                }, 900);
+                // Tidak reload halaman karena jadwal tidak lagi disimpan di localStorage.
+                renderAllDataWithFilter();
+                updateDashboardRealtime();
             }
 
             // FUNGSI PEMBANTU: PENGUNDUHAN OTOMATIS TXT SAAT UPLOAD SELESAI
