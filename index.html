@@ -2391,6 +2391,23 @@
                 if (currentRotationShift === 3 && minutesNow < startMin) minutesNow += 24 * 60;
                 const progressPercent = Math.max(0, Math.min(100, Math.round(((minutesNow - startMin) / (endMin - startMin)) * 100)));
                 setProgress(progressPercent);
+                const shiftTimeStatus = minutesNow < startMin
+                    ? {
+                        label: 'Belum bekerja',
+                        dotClass: 'bg-slate-400',
+                        textClass: 'text-slate-300'
+                    }
+                    : minutesNow >= endMin
+                        ? {
+                            label: 'Selesai bekerja',
+                            dotClass: 'bg-slate-500',
+                            textClass: 'text-slate-400'
+                        }
+                        : {
+                            label: 'Online',
+                            dotClass: 'bg-emerald-400',
+                            textClass: 'text-emerald-400'
+                        };
 
                 const dutySearch = (document.getElementById('search-duty-staff')?.value || '').toLowerCase().trim();
                 if (dutySearch) {
@@ -2417,8 +2434,8 @@
                             </div>
                             <div class="text-right flex-shrink-0">
                                 <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-black ${codeColor}">${st.code}</span>
-                                <span class="flex items-center justify-end gap-1 text-xs text-emerald-400 mt-1">
-                                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Online
+                                <span class="flex items-center justify-end gap-1 text-xs ${shiftTimeStatus.textClass} mt-1">
+                                    <span class="w-2 h-2 rounded-full ${shiftTimeStatus.dotClass}"></span> ${shiftTimeStatus.label}
                                 </span>
                             </div>
                         </div>`;
