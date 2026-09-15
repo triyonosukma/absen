@@ -2361,9 +2361,12 @@
                 let wfhCount = 0;
                 let offCount = 0;
 
+                const rawMinutesNow = now.getHours() * 60 + now.getMinutes();
+                const scheduleDayIndex = dayNum - 1;
+
                 generatedSchedule.data.forEach(emp => {
-                    if (dayNum - 1 >= emp.schedule.length) return;
-                    const code = String(emp.schedule[dayNum - 1]).toUpperCase().trim();
+                    if (scheduleDayIndex < 0 || scheduleDayIndex >= emp.schedule.length) return;
+                    const code = String(emp.schedule[scheduleDayIndex]).toUpperCase().trim();
 
                     if (code.startsWith('WFH')) wfhCount++;
                     else if (['L', 'C'].includes(code)) offCount++;
@@ -2387,8 +2390,7 @@
                     3: [23 * 60, 32 * 60]
                 };
                 let [startMin, endMin] = ranges[currentRotationShift];
-                let minutesNow = now.getHours() * 60 + now.getMinutes();
-                if (currentRotationShift === 3 && minutesNow < startMin) minutesNow += 24 * 60;
+                let minutesNow = rawMinutesNow;
                 const progressPercent = Math.max(0, Math.min(100, Math.round(((minutesNow - startMin) / (endMin - startMin)) * 100)));
                 setProgress(progressPercent);
                 const shiftTimeStatus = minutesNow < startMin
