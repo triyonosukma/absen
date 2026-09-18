@@ -2287,11 +2287,16 @@
 
             function updateDashboardRealtime() {
                 const now = new Date();
-                const dayNum = now.getDate();
                 const mSelect = parseInt(document.getElementById('select-bulan').value);
                 const ySelect = parseInt(document.getElementById('select-tahun').value);
+                const rawMinutesNow = now.getHours() * 60 + now.getMinutes();
+                const shift3EndToday = 8 * 60;
+                const isShift3FromPreviousDay = currentRotationShift === 3 && rawMinutesNow <= shift3EndToday;
+                const activeScheduleDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                if (isShift3FromPreviousDay) activeScheduleDate.setDate(activeScheduleDate.getDate() - 1);
+                const scheduleDayIndex = activeScheduleDate.getDate() - 1;
 
-                document.getElementById('lbl-date-now').innerText = now.toLocaleDateString('id-ID', {
+                document.getElementById('lbl-date-now').innerText = activeScheduleDate.toLocaleDateString('id-ID', {
                     weekday: 'long',
                     day: 'numeric',
                     month: 'long',
@@ -2360,11 +2365,6 @@
                 let wfoCount = 0;
                 let wfhCount = 0;
                 let offCount = 0;
-
-                const rawMinutesNow = now.getHours() * 60 + now.getMinutes();
-                const shift3EndToday = 8 * 60;
-                const isShift3FromPreviousDay = currentRotationShift === 3 && rawMinutesNow <= shift3EndToday;
-                const scheduleDayIndex = isShift3FromPreviousDay ? dayNum - 2 : dayNum - 1;
 
                 generatedSchedule.data.forEach(emp => {
                     if (scheduleDayIndex < 0 || scheduleDayIndex >= emp.schedule.length) return;
@@ -2470,7 +2470,17 @@
                 container.innerHTML = finalHtml;
             }
 
-            function handleEmployeeAction() {
+            function buildInitialScheduleForEmployee(type, month, year, totalDays) {
+                const schedule = [];
+                for (let d = 1; d <= totalDays; d++) {
+                    const dayOfWeek = new Date(year, month, d).getDay();
+                    if (type === 'Non Shift') schedule.push(dayOfWeek === 0 || dayOfWeek === 6 ? 'L' : '1');
+                    else schedule.push('L');
+                }
+                return schedule;
+            }
+
+            async function handleEmployeeAction() {
                 if (CURRENT_ROLE !== 'Admin') return;
                 const input = document.getElementById('input-nama');
                 const name = input.value.trim();
@@ -2488,11 +2498,19 @@
                     activeEditId = null;
                     document.getElementById('btn-add-employee').innerHTML = `<i class="fa-solid fa-plus"></i> Tambah Karyawan`;
                 } else {
-                    employees.push({ id: 'EMP_' + Date.now(), name, type, gender });
+                    const newEmployee = { id: 'EMP_' + Date.now(), name, type, gender };
+                    employees.push(newEmployee);
+                    if (generatedSchedule?.data) {
+                        const totalDays = generatedSchedule.customDaysCount || new Date(generatedSchedule.year, generatedSchedule.month + 1, 0).getDate();
+                        generatedSchedule.data.push({
+                            ...newEmployee,
+                            schedule: buildInitialScheduleForEmployee(type, generatedSchedule.month, generatedSchedule.year, totalDays)
+                        });
+                    }
                 }
                 input.value = '';
                 renderAllDataWithFilter();
-                saveToGitHub(true);
+                await saveToGitHub(true);
             }
 
             function editEmployee(id) {
@@ -3096,12 +3114,12 @@
             }
 
             async function saveToGitHub(showNotification = true) {
-                if (CURRENT_ROLE !== "Admin") return;
+                if (CURRENT_ROLE !== "Admin") return false;
                 clearTimeout(githubSaveTimer);
                 const token = getGitHubToken();
                 if (!token) {
                     setGitHubStatus("Masukkan token untuk menyimpan ke GitHub.", "error");
-                    return;
+                    return false;
                 }
                 setGitHubStatus("Menyimpan jadwal ke GitHub...");
                 try {
@@ -3120,10 +3138,12 @@
                     githubToken = token;
                     setGitHubStatus(`Tersimpan: ${new Date().toLocaleString("id-ID")}`, "success");
                     if (showNotification) showToast("Jadwal berhasil disimpan ke GitHub.", "success");
+                    return true;
                 } catch (error) {
                     console.error("GitHub save error:", error);
                     setGitHubStatus(error.message, "error");
                     if (showNotification) showToast(`Gagal menyimpan GitHub: ${error.message}`, "error");
+                    return false;
                 }
             }
 
