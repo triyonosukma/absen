@@ -2488,12 +2488,33 @@
                 const gender = document.querySelector('input[name="jenis_kelamin"]:checked').value;
                 if (!name) return;
 
+                const previousEmployees = employees.map(emp => ({ ...emp }));
+                const previousSchedule = generatedSchedule ? {
+                    ...generatedSchedule,
+                    data: generatedSchedule.data.map(emp => ({
+                        ...emp,
+                        schedule: Array.isArray(emp.schedule) ? [...emp.schedule] : []
+                    }))
+                } : null;
+
                 if (activeEditId) {
+                    const existingEmployee = employees.find(e => e.id === activeEditId);
+                    const typeChanged = existingEmployee && existingEmployee.type !== type;
                     employees = employees.map(e => e.id === activeEditId ? { ...e, name, type, gender } : e);
                     if (generatedSchedule?.data) {
-                        generatedSchedule.data = generatedSchedule.data.map(e =>
-                            e.id === activeEditId ? { ...e, name, type, gender } : e
-                        );
+                        const totalDays = generatedSchedule.customDaysCount || new Date(generatedSchedule.year, generatedSchedule.month + 1, 0).getDate();
+                        generatedSchedule.data = generatedSchedule.data.map(e => {
+                            if (e.id !== activeEditId) return e;
+                            return {
+                                ...e,
+                                name,
+                                type,
+                                gender,
+                                schedule: typeChanged
+                                    ? buildInitialScheduleForEmployee(type, generatedSchedule.month, generatedSchedule.year, totalDays)
+                                    : e.schedule
+                            };
+                        });
                     }
                     activeEditId = null;
                     document.getElementById('btn-add-employee').innerHTML = `<i class="fa-solid fa-plus"></i> Tambah Karyawan`;
@@ -2510,7 +2531,13 @@
                 }
                 input.value = '';
                 renderAllDataWithFilter();
-                await saveToGitHub(true);
+                const saved = await saveToGitHub(true);
+                if (!saved) {
+                    employees = previousEmployees;
+                    generatedSchedule = previousSchedule;
+                    renderAllDataWithFilter();
+                    showToast("Perubahan dibatalkan karena belum tersimpan ke GitHub.", "error");
+                }
             }
 
             function editEmployee(id) {
