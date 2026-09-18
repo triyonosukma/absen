@@ -2487,6 +2487,11 @@
                 const type = document.querySelector('input[name="jenis_kerja"]:checked').value;
                 const gender = document.querySelector('input[name="jenis_kelamin"]:checked').value;
                 if (!name) return;
+                if (!getGitHubToken()) {
+                    setGitHubStatus("Masukkan token GitHub terlebih dahulu agar perubahan tersimpan.", "error");
+                    showToast("Masukkan token GitHub terlebih dahulu, lalu ulangi perubahan.", "error");
+                    return;
+                }
 
                 const previousEmployees = employees.map(emp => ({ ...emp }));
                 const previousSchedule = generatedSchedule ? {
