@@ -2321,9 +2321,10 @@
             function renderStaffDetails(category) {
                 openStaffCategory = category;
                 const labels = { wfo: 'WFO', wfh: 'WFH', off: 'Libur / Cuti' };
+                const shiftOrder = { '1': 1, S1: 1, WFH1: 1, '2': 2, S2: 2, WFH2: 2, '3': 3, S3: 3, NS: 4, L: 5, C: 6 };
                 const staff = [...(dashboardStaffDetails[category] || [])].sort((a, b) =>
-                    String(a.name || '').localeCompare(String(b.name || ''), 'id', { sensitivity: 'base', numeric: true }) ||
-                    String(a.code || '').localeCompare(String(b.code || ''), 'id', { sensitivity: 'base', numeric: true })
+                    (shiftOrder[a.code] ?? 99) - (shiftOrder[b.code] ?? 99) ||
+                    String(a.name || '').localeCompare(String(b.name || ''), 'id', { sensitivity: 'base', numeric: true })
                 );
                 document.getElementById('staff-detail-title').textContent = 'Detail Pegawai ' + labels[category];
                 document.getElementById('staff-detail-summary').textContent =
