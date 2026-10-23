@@ -798,6 +798,11 @@
             </div>
             <form method="dialog"><button class="px-3 py-2 rounded-lg hover:bg-slate-800 cursor-pointer" aria-label="Tutup detail pegawai">✕</button></form>
         </div>
+        <div class="px-5 py-3 border-b border-slate-700">
+            <button type="button" id="btn-export-staff-excel" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                <i class="fa-solid fa-file-excel mr-2" aria-hidden="true"></i>Export Excel
+            </button>
+        </div>
         <div class="overflow-auto max-h-[60vh]">
             <table class="w-full text-left text-sm">
                 <thead class="sticky top-0 bg-slate-800 text-slate-300"><tr>
@@ -1267,6 +1272,7 @@
             addListenerIfExists('input-excel', 'change', handleExcelUpload);
             addListenerIfExists('input-txt-backup', 'change', handleTxtBackupUpload);
             addListenerIfExists('btn-export-excel', 'click', doExportExcel);
+            addListenerIfExists('btn-export-staff-excel', 'click', exportStaffDetailsExcel);
             addListenerIfExists('btn-export-pdf', 'click', doExportPDF);
             addListenerIfExists('btn-export-txt', 'click', doExportTxtFile);
             addListenerIfExists('btn-github-load', 'click', loadFromGitHub);
@@ -2317,6 +2323,7 @@
 
             let dashboardStaffDetails = { wfo: [], wfh: [], off: [] };
             let openStaffCategory = null;
+            let staffDetailExportRows = [];
 
             function renderStaffDetails(category) {
                 openStaffCategory = category;
@@ -2326,21 +2333,44 @@
                     (shiftOrder[a.code] ?? 99) - (shiftOrder[b.code] ?? 99) ||
                     String(a.name || '').localeCompare(String(b.name || ''), 'id', { sensitivity: 'base', numeric: true })
                 );
+                staffDetailExportRows = staff.map(emp => {
+                    const employee = employees.find(item => item.id === emp.id);
+                    const nik = emp.nik || employee?.nik || (100000 + Math.abs(hashString(emp.name)) % 900000);
+                    const rule = SHIFT_RULES[emp.code];
+                    return [String(nik), String(emp.name || ''), rule ? emp.code + ' — ' + rule.label : emp.code];
+                });
+                document.getElementById('btn-export-staff-excel').disabled = staff.length === 0;
                 document.getElementById('staff-detail-title').textContent = 'Detail Pegawai ' + labels[category];
                 document.getElementById('staff-detail-summary').textContent =
                     document.getElementById('lbl-date-now').innerText + ' • ' + staff.length + ' Pegawai';
                 document.getElementById('staff-detail-body').innerHTML = staff.length
-                    ? staff.map(emp => {
-                        const employee = employees.find(item => item.id === emp.id);
-                        const nik = emp.nik || employee?.nik || (100000 + Math.abs(hashString(emp.name)) % 900000);
-                        const rule = SHIFT_RULES[emp.code];
-                        const shift = rule ? emp.code + ' — ' + rule.label : emp.code;
-                        return '<tr class="border-t border-slate-800">' +
-                            '<td class="px-5 py-3 whitespace-nowrap">' + escapeHtml(String(nik)) + '</td>' +
-                            '<td class="px-5 py-3">' + escapeHtml(emp.name) + '</td>' +
-                            '<td class="px-5 py-3 whitespace-nowrap">' + escapeHtml(shift) + '</td></tr>';
-                    }).join('')
+                    ? staffDetailExportRows.map(row => '<tr class="border-t border-slate-800">' +
+                        '<td class="px-5 py-3 whitespace-nowrap">' + escapeHtml(row[0]) + '</td>' +
+                        '<td class="px-5 py-3">' + escapeHtml(row[1]) + '</td>' +
+                        '<td class="px-5 py-3 whitespace-nowrap">' + escapeHtml(row[2]) + '</td></tr>').join('')
                     : '<tr><td colspan="3" class="px-5 py-8 text-center text-slate-400">Tidak ada pegawai pada kategori ini.</td></tr>';
+            }
+
+            function exportStaffDetailsExcel() {
+                if (!openStaffCategory || !staffDetailExportRows.length) return;
+                if (typeof XLSX === 'undefined') {
+                    showToast("Pustaka Excel belum termuat. Refresh halaman lalu coba lagi.", "error");
+                    return;
+                }
+                try {
+                    const sheet = XLSX.utils.aoa_to_sheet([['NIK', 'Nama', 'Shift'], ...staffDetailExportRows]);
+                    sheet['!cols'] = [{ wch: 18 }, { wch: 45 }, { wch: 28 }];
+                    sheet['!autofilter'] = { ref: sheet['!ref'] };
+                    const workbook = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(workbook, sheet, 'Detail Pegawai');
+                    const category = { wfo: 'WFO', wfh: 'WFH', off: 'Libur_Cuti' }[openStaffCategory];
+                    const date = document.getElementById('lbl-date-now').innerText.replace(/[^a-zA-Z0-9]+/g, '_');
+                    XLSX.writeFile(workbook, 'Detail_Pegawai_' + category + '_' + date + '.xlsx');
+                    showToast("Export detail pegawai berhasil.");
+                } catch (error) {
+                    console.error("Export detail Excel gagal:", error);
+                    showToast("Gagal membuat file Excel. Silakan coba lagi.", "error");
+                }
             }
 
             function refreshOpenStaffDetails() {
