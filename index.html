@@ -492,7 +492,7 @@
                         </div>
                         <div>
                             <p class="text-sm text-slate-400">WFO</p>
-                            <p id="metric-wfo-staff" class="text-3xl font-black text-white">0</p>
+                            <button type="button" id="metric-wfo-staff" data-staff-category="wfo" aria-haspopup="dialog" aria-controls="staff-detail-dialog" aria-label="Lihat detail WFO" class="text-3xl font-black text-white cursor-pointer hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400 rounded">0</button>
                             <p class="text-xs text-slate-400">On Site</p>
                         </div>
                     </div>
@@ -502,7 +502,7 @@
                         </div>
                         <div>
                             <p class="text-sm text-slate-400">WFH</p>
-                            <p id="metric-wfh-staff" class="text-3xl font-black text-white">0</p>
+                            <button type="button" id="metric-wfh-staff" data-staff-category="wfh" aria-haspopup="dialog" aria-controls="staff-detail-dialog" aria-label="Lihat detail WFH" class="text-3xl font-black text-white cursor-pointer hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400 rounded">0</button>
                             <p class="text-xs text-slate-400">Work From Home</p>
                         </div>
                     </div>
@@ -512,7 +512,7 @@
                         </div>
                         <div>
                             <p class="text-sm text-slate-400">Libur / Cuti</p>
-                            <p id="metric-off-staff" class="text-3xl font-black text-white">0</p>
+                            <button type="button" id="metric-off-staff" data-staff-category="off" aria-haspopup="dialog" aria-controls="staff-detail-dialog" aria-label="Lihat detail Libur / Cuti" class="text-3xl font-black text-white cursor-pointer hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400 rounded">0</button>
                             <p class="text-xs text-slate-400">Tidak Bertugas</p>
                         </div>
                     </div>
@@ -789,6 +789,27 @@
     </main>
 
     <!-- CUSTOM ADMIN LOGIN MODAL -->
+
+    <dialog id="staff-detail-dialog" aria-labelledby="staff-detail-title" class="m-auto w-[calc(100%-2rem)] max-w-2xl max-h-[85vh] rounded-xl border border-slate-700 bg-slate-900 text-slate-100 p-0 backdrop:bg-slate-950/70">
+        <div class="flex items-start justify-between gap-4 p-5 border-b border-slate-700">
+            <div>
+                <h2 id="staff-detail-title" class="text-lg font-bold">Detail Pegawai</h2>
+                <p id="staff-detail-summary" class="text-sm text-slate-400 mt-1"></p>
+            </div>
+            <form method="dialog"><button class="px-3 py-2 rounded-lg hover:bg-slate-800 cursor-pointer" aria-label="Tutup detail pegawai">✕</button></form>
+        </div>
+        <div class="overflow-auto max-h-[60vh]">
+            <table class="w-full text-left text-sm">
+                <thead class="sticky top-0 bg-slate-800 text-slate-300"><tr>
+                    <th scope="col" class="px-5 py-3">NIK</th>
+                    <th scope="col" class="px-5 py-3">Nama</th>
+                    <th scope="col" class="px-5 py-3">Shift</th>
+                </tr></thead>
+                <tbody id="staff-detail-body"></tbody>
+            </table>
+        </div>
+    </dialog>
+
     <div id="login-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300 px-4">
         <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-xl w-full max-w-sm p-6 transform scale-95 transition-transform duration-300 relative">
             <!-- Close Button -->
@@ -1226,6 +1247,19 @@
         }
 
         function bindEventListeners() {
+            document.querySelectorAll('[data-staff-category]').forEach(button => {
+                button.addEventListener('click', () => {
+                    updateDashboardRealtime();
+                    renderStaffDetails(button.dataset.staffCategory);
+                    document.getElementById('staff-detail-dialog').showModal();
+                });
+            });
+            addListenerIfExists('staff-detail-dialog', 'click', event => {
+                if (event.target !== event.currentTarget) return;
+                const bounds = event.currentTarget.getBoundingClientRect();
+                if (event.clientX < bounds.left || event.clientX > bounds.right ||
+                    event.clientY < bounds.top || event.clientY > bounds.bottom) event.currentTarget.close();
+            });
             addListenerIfExists('btn-add-employee', 'click', handleEmployeeAction);
             addListenerIfExists('btn-generate', 'click', generateScheduleFlow);
             addListenerIfExists('btn-reset', 'click', resetAllData);
@@ -2210,6 +2244,7 @@
                 const container = document.getElementById('list-active-staff');
                 container.innerHTML = '';
 
+                dashboardStaffDetails = { wfo: [], wfh: [], off: [] };
                 if (!generatedSchedule || generatedSchedule.month !== mSelect || generatedSchedule.year !== ySelect) {
                     container.innerHTML = `<span class="text-slate-400 italic text-[11px]">Jadwal periode ini belum di-generate/di-import.</span>`;
                     return;
@@ -2276,6 +2311,37 @@
                     }
 
                     container.innerHTML = finalHtml;
+                }
+            }
+
+
+            let dashboardStaffDetails = { wfo: [], wfh: [], off: [] };
+            let openStaffCategory = null;
+
+            function renderStaffDetails(category) {
+                openStaffCategory = category;
+                const labels = { wfo: 'WFO', wfh: 'WFH', off: 'Libur / Cuti' };
+                const staff = dashboardStaffDetails[category] || [];
+                document.getElementById('staff-detail-title').textContent = 'Detail Pegawai ' + labels[category];
+                document.getElementById('staff-detail-summary').textContent =
+                    document.getElementById('lbl-date-now').innerText + ' • ' + staff.length + ' Pegawai';
+                document.getElementById('staff-detail-body').innerHTML = staff.length
+                    ? staff.map(emp => {
+                        const employee = employees.find(item => item.id === emp.id);
+                        const nik = emp.nik || employee?.nik || (100000 + Math.abs(hashString(emp.name)) % 900000);
+                        const rule = SHIFT_RULES[emp.code];
+                        const shift = rule ? emp.code + ' — ' + rule.label : emp.code;
+                        return '<tr class="border-t border-slate-800">' +
+                            '<td class="px-5 py-3 whitespace-nowrap">' + escapeHtml(String(nik)) + '</td>' +
+                            '<td class="px-5 py-3">' + escapeHtml(emp.name) + '</td>' +
+                            '<td class="px-5 py-3 whitespace-nowrap">' + escapeHtml(shift) + '</td></tr>';
+                    }).join('')
+                    : '<tr><td colspan="3" class="px-5 py-8 text-center text-slate-400">Tidak ada pegawai pada kategori ini.</td></tr>';
+            }
+
+            function refreshOpenStaffDetails() {
+                if (document.getElementById('staff-detail-dialog').open && openStaffCategory) {
+                    renderStaffDetails(openStaffCategory);
                 }
             }
 
@@ -2349,11 +2415,13 @@
                     if (label) label.innerText = `${value}%`;
                 }
 
+                dashboardStaffDetails = { wfo: [], wfh: [], off: [] };
                 if (!generatedSchedule || generatedSchedule.month !== mSelect || generatedSchedule.year !== ySelect) {
                     setText('metric-total-staff', '0');
                     setText('metric-wfo-staff', '0');
                     setText('metric-wfh-staff', '0');
                     setText('metric-off-staff', '0');
+                    refreshOpenStaffDetails();
                     setText('lbl-active-count', '0 Pegawai');
                     setText('lbl-active-location', '-');
                     setProgress(0);
@@ -2370,9 +2438,12 @@
                     if (scheduleDayIndex < 0 || scheduleDayIndex >= emp.schedule.length) return;
                     const code = String(emp.schedule[scheduleDayIndex]).toUpperCase().trim();
 
-                    if (code.startsWith('WFH')) wfhCount++;
-                    else if (['L', 'C'].includes(code)) offCount++;
-                    else if (isWorkShiftCode(code)) wfoCount++;
+                    const category = code.startsWith('WFH') ? 'wfh' :
+                        ['L', 'C'].includes(code) ? 'off' : isWorkShiftCode(code) ? 'wfo' : null;
+                    if (category) dashboardStaffDetails[category].push({ ...emp, code });
+                    if (category === 'wfh') wfhCount++;
+                    else if (category === 'off') offCount++;
+                    else if (category === 'wfo') wfoCount++;
 
                     if (checkedCodes.includes(code)) {
                         duty.push({ name: emp.name, code: code, gender: emp.gender || guessGender(emp.name) });
@@ -2383,6 +2454,7 @@
                 setText('metric-wfo-staff', wfoCount);
                 setText('metric-wfh-staff', wfhCount);
                 setText('metric-off-staff', offCount);
+                refreshOpenStaffDetails();
                 setText('lbl-active-count', `${duty.length} Pegawai`);
                 setText('lbl-active-location', currentRotationShift === 3 ? 'Kantor / On Site' : (duty.some(st => st.code.startsWith('WFH')) ? 'Work From Home' : 'Kantor / On Site'));
 
