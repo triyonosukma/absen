@@ -2321,7 +2321,10 @@
             function renderStaffDetails(category) {
                 openStaffCategory = category;
                 const labels = { wfo: 'WFO', wfh: 'WFH', off: 'Libur / Cuti' };
-                const staff = dashboardStaffDetails[category] || [];
+                const staff = [...(dashboardStaffDetails[category] || [])].sort((a, b) =>
+                    String(a.name || '').localeCompare(String(b.name || ''), 'id', { sensitivity: 'base', numeric: true }) ||
+                    String(a.code || '').localeCompare(String(b.code || ''), 'id', { sensitivity: 'base', numeric: true })
+                );
                 document.getElementById('staff-detail-title').textContent = 'Detail Pegawai ' + labels[category];
                 document.getElementById('staff-detail-summary').textContent =
                     document.getElementById('lbl-date-now').innerText + ' • ' + staff.length + ' Pegawai';
